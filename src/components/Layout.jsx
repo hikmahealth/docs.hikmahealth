@@ -25,6 +25,7 @@ const navigation = [
       { title: 'Architecture guide', href: '/docs/architecture-guide' },
       { title: 'Dynamic Event Forms', href: '/docs/dynamic-event-forms' },
       { title: 'Offline & Sync', href: '/docs/offline-and-sync' },
+      { title: 'Security Considerations', href: '/docs/security-considerations' }
     ],
   },
   {

@@ -148,5 +148,5 @@ The mobile app has a set of screens and components that interpret the JSON form 
 ### Input Customization on Mobile
 - The input fields can be found inside the `components` folder
 - There as many types of inputs as there are types of fields in the above typescript type definitions
-- Keep in mind the screen sizes of your users when editing the fields, if users are on smaller screens, its not recommended to layout multiple fields in a row: prefer column layouts for smaller screens.
+- Keep in mind the screen sizes of your users when editing the fields. If users are on smaller screens, its not recommended to layout multiple fields in a row - prefer column layouts for smaller screens.
 

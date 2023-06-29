@@ -136,11 +136,17 @@ The mobile app has a set of screens and components that interpret the JSON form 
 ---
 
 ## Considerations
-
+- Forms can be editable, check/uncheck the field on the dashboard to allow/disable edit functionality
+- Forms that show up under the patient profile are called "snapshot forms", these provide quick access to interesting histories of patients. This can be managed on the dashboard
+- The forms in a specific language only show up when the app is set to that specific language. You can disable this in the code by removing the language specific query to show all forms regardless of language.
 - As forms change and get updated, all data collected with the new forms will be slightly different from previous data
+- All form data is stored as json on both the client and the server in a field called "metadata"
+- Being a json field, it managing this data is more complex, learn more here: https://www.sqlite.org/json1.html
+- When form inputs are edited and updated, keep in mind that users that try to edit old entries following the old schemas will have missing fields/entries
+- There are 2 custom inputs, medicine and diagnoses, these inputs have mandatory fields and make sure to test out the appearance after every change due to how the inputs may interact with each other
 
-// TODOS:
+### Input Customization on Mobile
+- The input fields can be found inside the `components` folder
+- There as many types of inputs as there are types of fields in the above typescript type definitions
+- Keep in mind the screen sizes of your users when editing the fields, if users are on smaller screens, its not recommended to layout multiple fields in a row: prefer column layouts for smaller screens.
 
-[ ] 🏁 Document things to consider when updating the form
-
-[ ] 🏁 TODO: Document how to customize the different input fields on mobile

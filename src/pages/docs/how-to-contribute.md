@@ -9,7 +9,7 @@ The best place to learn more about the Hikma Health platform is to visit our web
 
 ## Submit an issue
 
-If you have a question or need help with getting started, please submit an issue on the appropriate repository - which you can find here [GitHub repository](https://github.om/hikmahealth)
+If you have a question or need help with getting started, please submit an issue on the appropriate repository - which you can find here [GitHub repository](https://github.com/hikmahealth)
 
 ## Join the community
 

@@ -12,7 +12,7 @@ Learn how to get Hikma Health set up in your project in under thirty minutes. {%
 
 {% quick-link title="Architecture guide" icon="presets" href="/docs/architecture-guide" description="Dive into the structure of the platform to learn more about all the moving parts and how they relate to each other." /%}
 
-{% quick-link title="Customization" icon="plugins" href="/" description="Hikma Health is built to be extendable and customizable for your needs. Learn how here." /%}
+{% quick-link title="Customization" icon="plugins" href="/docs/customizing-hh" description="Hikma Health is built to be extendable and customizable for your needs. Learn how here." /%}
 
 {% quick-link title="Contributing" icon="theming" href="/docs/how-to-contribute" description="How your customization can help other users and create a much larger impact." /%}
 

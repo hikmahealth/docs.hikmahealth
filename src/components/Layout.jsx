@@ -46,6 +46,12 @@ const navigation = [
     ],
   },
   {
+    title: 'Customization',
+    links: [
+      { title: 'Customization Options', href: '/docs/contributing-hh' },
+    ],
+  }, 
+  {
     title: 'Contributing',
     links: [
       { title: 'How to contribute', href: '/docs/how-to-contribute' },

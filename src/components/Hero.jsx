@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
-import Highlight, { defaultProps } from 'prism-react-renderer'
+import {Highlight} from 'prism-react-renderer'
 
 import { Button } from '@/components/Button'
 import { HeroBackground } from '@/components/HeroBackground'
@@ -135,10 +135,9 @@ export function Hero() {
                       ))}
                     </div>
                     <Highlight
-                      {...defaultProps}
                       code={code}
                       language={codeLanguage}
-                      theme={undefined}
+                      theme={{ plain: {}, styles: [] }}
                     >
                       {({
                         className,

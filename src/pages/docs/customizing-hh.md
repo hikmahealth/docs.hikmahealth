@@ -3,7 +3,7 @@ title: Customizing Hikma Health System
 description: The Hikma Health platform is developed with customization in mind. From customizing the forms right from within the software, to more involved customizations involving changes to the code.
 ---
 
-Quasi sapiente voluptates aut minima non doloribus similique quisquam. In quo expedita ipsum nostrum corrupti incidunt. Et aut eligendi ea perferendis.
+The Hikma Health platform is developed with customization in mind. From customizing the forms right from within the software, to more involved customizations involving changes to the code.
 
 ---
 

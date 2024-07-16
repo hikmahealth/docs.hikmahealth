@@ -20,6 +20,15 @@ const navigation = [
     ],
   },
   {
+    title: "🚀 Deployment",
+    links: [
+      { title: 'Quick Start', href: '/docs/deployment-quick-start' },
+      // { title: 'Server (Advanced)', href: '/docs/deployment-quick-start' },
+      // { title: 'Database (Advanced)', href: '/docs/deployment-quick-start' },
+      { title: 'Hosting Options', href: '/docs/hosting-options' },
+    ]
+  },
+  {
     title: 'Core concepts',
     links: [
       { title: 'Architecture guide', href: '/docs/architecture-guide' },
@@ -143,7 +152,7 @@ function useTableOfContents(tableOfContents) {
       let top = window.scrollY
       let current = headings[0].id
       for (let heading of headings) {
-        if (top >= heading.top) {
+        if (top >= heading?.top) {
           current = heading.id
         } else {
           break

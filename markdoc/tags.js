@@ -1,5 +1,6 @@
 import { Callout } from '@/components/Callout'
 import { QuickLink, QuickLinks } from '@/components/QuickLinks'
+import { EmbeddedVideo } from '@/components/EmbeddedVideo';
 
 const tags = {
   callout: {
@@ -14,7 +15,14 @@ const tags = {
     },
     render: Callout,
   },
-  figure: {
+  youtube: {
+    render: EmbeddedVideo,
+    attributes: {
+      src: { type: String, required: true },
+      width: { type: Number, default: 560 },
+      height: { type: Number, default: 315 },
+    },
+  }, figure: {
     selfClosing: true,
     attributes: {
       src: { type: String },
@@ -45,3 +53,4 @@ const tags = {
 }
 
 export default tags
+

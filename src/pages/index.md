@@ -43,7 +43,7 @@ Together they form the Hikma Health platform. The server is the core of the plat
 To get started with each of the applications, you will need to have the following installed on your machine:
 
 - [Git](https://git-scm.com/): A version control system that allows you to download the code from GitHub.
-- [Node.js](https://nodejs.org/en/) (v14 or higher): A JavaScript runtime that allows you to run JavaScript code outside of a browser.
+- [Node.js](https://nodejs.org/en/) (v20 or higher): A JavaScript runtime that allows you to run JavaScript code outside of a browser.
 - [Yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/): A package manager that allows you to install and manage dependencies.
 - [PostgreSQL](https://www.postgresql.org/): A relational database that stores all the data.
 - [Android Studio](https://developer.android.com/studio): An IDE for Android development.

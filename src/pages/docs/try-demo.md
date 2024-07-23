@@ -16,3 +16,11 @@ To try the Hikma Health EHR system without deploying it to your own server, foll
 6. After scanning the QR code, proceed to sign in with the same credentials
 7. On successful sign in, you can proceed with patient registraion, recording visits and more.
 
+
+### Troubleshooting
+If you experience any issues with your deployment process, the first step should be to look at the 
+logs (whether this is the browser console or the server logs). If the issue is still not clear, please 
+file an issue directly on github or send us an email. Please include as much detail as possible, we 
+prefer if you include too much details and screenshots / videos. 
+
+If you are stuck for more than 15 minutes, please reach out.

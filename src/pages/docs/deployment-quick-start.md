@@ -93,6 +93,7 @@ To deploy to render.com follow these instructions"
 10. You need to replace the value of "NEXT_PUBLIC_HIKMA_API" with the URL of your backend - you can find this on the backend deployment we just did.
 11. This will trigger a new deploy process, wait for a few minutes for the deployment to complete.
 12. Open the URL of your deployment and sign in to test it (you can get the default credentials by contacting ally[at]hikmahealth(dot)org)
+13. 🔥 DO NOT FORGET TO CHANGE THE PASSWORD. Go to users list > edit user > then enter the new password there
 
 {% youtube src="https://drive.google.com/file/d/1MFYUtkkDxyDxulARGLZAZBHvRu8g_F6X/preview" width="100%" height="480" allow="autoplay" /%}
 

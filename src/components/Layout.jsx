@@ -17,6 +17,7 @@ const navigation = [
     links: [
       { title: 'Getting started', href: '/' },
       { title: 'Try the demo', href: '/docs/try-demo' },
+      { title: 'FAQ', href: '/docs/faq' },
       // { title: 'Installation', href: '/docs/installation' },
     ],
   },
@@ -35,7 +36,7 @@ const navigation = [
       { title: 'Architecture guide', href: '/docs/architecture-guide' },
       { title: 'Dynamic Event Forms', href: '/docs/dynamic-event-forms' },
       { title: 'Offline & Sync', href: '/docs/offline-and-sync' },
-      { title: 'Security Considerations', href: '/docs/security-considerations' }
+      { title: '🔐 Security Considerations', href: '/docs/security-considerations' }
     ],
   },
   {

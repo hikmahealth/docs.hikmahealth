@@ -33,13 +33,14 @@ In general, it is best to avoid storing any sensitive data directly on the devic
 
 ##### Remember to:
 1. NEVER commit your `.env` files to git (or any other version control software you are using.). If you do, like we all have once upon a time, remove it from being tracked and update all credentials that were stored in there.
-2. DO NOT store any sensitive information in `AsyncStorage`. AsyncStorage does not encrypt data at rest. Consider alternatives such as using the keychain (iOS) and/or Shared Preferences (Android).
+2. Do not type out any sensitive information directly into any parts of the code. This includes, but is not limited to, passwords, email addresses, API keys, secret keys, and ids.
+3. DO NOT store any sensitive information in `AsyncStorage`. AsyncStorage does not encrypt data at rest. Consider alternatives such as using the keychain (iOS) and/or Shared Preferences (Android) - you can use [Encrypted Storage](https://github.com/emeraldsanto/react-native-encrypted-storage).
 
 
 ### Be aware of the risks of third-party libraries. 
 Third-party libraries can introduce security vulnerabilities into your app. Be careful about which third-party libraries you use and make sure they are up to date.
 
-Prefer libraries with a lot of frequent updates and activity on github/bitbucket/gitlab.
+Prefer libraries with a lot of github stars and frequent updates and activity on github/bitbucket/gitlab.
 
 ### Learn more
 It is recommended that every React Native developer review the RN security best practices at least once: [https://reactnative.dev/docs/security](https://reactnative.dev/docs/security)

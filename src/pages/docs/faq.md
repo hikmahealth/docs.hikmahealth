@@ -40,6 +40,17 @@ Without doing this, the mobile app will not be able to sync data to other users 
 only using the offline use case.
 
 
+## I have scanned the QR code, but I am still not able to sign in to the mobile app.
+The most common issue here is that something went wrong with the scanning of the QR code.
+
+The first thing to try is re-scanning the QR code, making sure it is clearly visible wherever you are scanning from.
+If this does not work, please verify your email address and password and set a new password on the admin portal 
+to try a new password.
+
+If none of the above works, file an issue with the correct logs or talk to you technical lead for further 
+instructions.
+
+
 ## Who can see my data, and who is it shared with?
 With the Hikma Health EHR system, no one but you and your technical team have access to your data. Not even us.
 

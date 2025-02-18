@@ -10,7 +10,8 @@ To try the Hikma Health EHR system without deploying it to your own server, foll
 - Email: test-user@hikmahealth.org
 - Password: HikmaTester4
 2. After signing in to the dashboard, click on "Activate app". This will give you a QR code.
-3. Download the Hikma Health android application from the play store here: [https://play.google.com/store/apps/details?id=com.hikmahealth](https://play.google.com/store/apps/details?id=com.hikmahealth)
+3. Android Users: Download the Hikma Health android application from the play store here: [https://play.google.com/store/apps/details?id=com.hikmahealth](https://play.google.com/store/apps/details?id=com.hikmahealth)
+3. iOS Users: Download the Hikma Health iOS application from the app store here: [https://apps.apple.com/us/app/hikma-health-app/id6738031538](https://apps.apple.com/us/app/hikma-health-app/id6738031538)
 5. On the sign in page of the android app, click on "Register app with QR code". This will open the camera.
 5. Scan the QR code on the administrator dashboard to connect your android device.
 6. After scanning the QR code, proceed to sign in with the same credentials

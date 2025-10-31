@@ -67,7 +67,7 @@ Take a look at the `package.json` file for a complete list of dependencies.
 
 The Hikma Health mobile app follows a clear architectural pattern:
 
-```
+```text
 hikma-health-mobile
 ├── app/
 │   ├── assets/          # Application-specific assets and resources
@@ -161,7 +161,7 @@ pnpm install
 4. **Set up environment variables:**
 
 Create a `.env` file and add:
-```
+```bash
 EXPO_PUBLIC_HIKMA_API_TESTING=<your-backend-url>
 ```
 

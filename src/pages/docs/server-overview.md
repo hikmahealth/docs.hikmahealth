@@ -64,7 +64,7 @@ The server is built with modern web technologies optimized for reliability and p
 
 The server uses a modern full-stack architecture where the frontend and backend are tightly integrated:
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │         Hikma Health Server                 │
 │    (Single Unified Application)             │
@@ -100,7 +100,7 @@ The server uses a modern full-stack architecture where the frontend and backend 
 
 Understanding the project structure helps you navigate and modify the codebase:
 
-```
+```text
 hikma-health-server/
 ├── db/                      # Database migrations (SQL files)
 │   ├── 001_initial.sql

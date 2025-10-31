@@ -313,7 +313,7 @@ We follow conventional commit messages for clarity and automated changelog gener
 
 ### Format
 
-```
+```text
 <type>(<scope>): <subject>
 
 <body>
@@ -335,7 +335,7 @@ We follow conventional commit messages for clarity and automated changelog gener
 
 ### Examples
 
-```bash
+```text
 feat(pharmacy): add medication inventory tracking
 
 fix(auth): resolve login redirect issue

@@ -6,7 +6,7 @@ export function Fence({ children, language }) {
   return (
     <Highlight
       code={children.trimEnd()}
-      language={language}
+      language={language || 'text'}
       theme={themes.dracula}
     >
       {({ className, style, tokens, getTokenProps }) => (

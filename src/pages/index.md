@@ -29,28 +29,35 @@ This documentation is continuously improving and expanding. If you have any ques
 
 ### Overview
 
-For the rest of this documentation, it is important to keep in mind that the platform is a collection of 4 different core technologies/applications:
+For the rest of this documentation, it is important to keep in mind that the platform is a collection of 3 different core technologies/applications:
 
-1. [Hikma Health Server](https://github.com/hikmahealth/hikma-health-backend)
-2. [Hikma Health Admin](https://github.com/hikmahealth/admin-app)
-3. [Hikma Health Mobile Application (Android only)](https://github.com/hikmahealth/hikma-health-app)
-4. [Database](https://www.postgresql.org/)
+1. [Hikma Health Server](https://github.com/hikmahealth/hikma-health-server) - A full-stack application (combines server API and admin web interface)
+2. [Hikma Health Mobile Application (Android only)](https://github.com/hikmahealth/hikma-health-app)
+3. [Database](https://www.postgresql.org/)
 
-Together they form the Hikma Health platform. The server is the core of the platform and is responsible for managing the data and providing the API for the mobile application and admin. The admin is a web application that allows users to manage the data in the platform. The mobile application is a mobile application that allows users to collect data in the field. The database is a relational database (PostgreSQL) that stores all the data.
+Together they form the Hikma Health platform. The server is the core of the platform and includes both the API backend and the admin web interface in a single application. It's built with TypeScript and TanStack Start, designed for offline-first operation. The mobile application allows users to collect data in the field. The database is a relational database (PostgreSQL) that stores all the data.
+
+{% callout title="Migrating from the old Python version?" %}
+If you previously used the separate `hikma-health-backend` (Python/Flask) and `hikma-health-admin` (Next.js) repositories, they have now been combined into a single modern full-stack application. Migration is straightforward - the new system uses the same PostgreSQL database and automatically runs migrations on startup. See the [migration guide](https://github.com/hikmahealth/hikma-health-server#migrating-from-python-version) for details.
+{% /callout %}
 
 ### Requirements
 
 To get started with each of the applications, you will need to have the following installed on your machine:
 
+**For the Server (API + Admin):**
 - [Git](https://git-scm.com/): A version control system that allows you to download the code from GitHub.
-- [Node.js](https://nodejs.org/en/) (v20 or higher): A JavaScript runtime that allows you to run JavaScript code outside of a browser.
-- [Yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/): A package manager that allows you to install and manage dependencies.
+- [Node.js](https://nodejs.org/en/) (v22.14 or higher): A JavaScript runtime that allows you to run JavaScript code outside of a browser.
+- [pnpm](https://pnpm.io/): A fast, disk space efficient package manager (install with `npm install -g pnpm`).
 - [PostgreSQL](https://www.postgresql.org/): A relational database that stores all the data.
+- [PGAdmin](https://www.pgadmin.org/) (Recommended): A tool that allows you to manage PostgreSQL databases. Can save you a lot of time.
+
+**For the Mobile Application:**
+_ℹ️ It is recommended that you download the latest application from the Google Play Store or Apple App Store instead of building it from source._
+
 - [Android Studio](https://developer.android.com/studio): An IDE for Android development.
 - [React Native](https://reactnative.dev/docs/environment-setup): A framework for building native apps using JavaScript and React.
-- [Python 3.10](https://www.python.org/downloads/): A programming language that allows you to run scripts.
-- [conda](https://docs.conda.io/en/latest/miniconda.html) or [virtualenv](https://virtualenv.pypa.io/en/latest/) or [venv](https://docs.python.org/3/library/venv.html) (Recommended): A tool to create isolated Python environments and prevent dependency conflicts. Love your future self by using one of these tools.
-- [PGAdmin](https://www.pgadmin.org/) (Recommended): A tool that allows you to manage PostgreSQL databases. Can save you a lot of time.
+- [pnpm](https://pnpm.io/): A fast, disk space efficient package manager (install with `npm install -g pnpm`).
 - [ngrok](https://ngrok.com/) (Optional): A tool that allows you to expose a local server to the internet. This makes it easier to test the mobile application.
 
 ### Clone Repositories
@@ -67,16 +74,15 @@ cd hikma-health
 
 This will help with organizing the code and make it easier to run the applications.
 
-Next, clone the repositories for each of the
+Next, clone the repositories:
 
 ```bash
-# Clone the server repository
-git clone https://github.com/hikmahealth/hikma-health-backend
+# Clone the server repository (includes both API and admin interface)
+git clone https://github.com/hikmahealth/hikma-health-server.git
 
-# Clone the admin web app repository
-git clone git@github.com:hikmahealth/admin-app.git
+# (Recommended) Download the HH mobile app from the App Store or Google Play Store.
 
-# Clone the mobile app repository
+# (Optional) Clone the mobile app repository
 git clone git@github.com:hikmahealth/hikma-health-app.git
 
 ```
@@ -111,75 +117,55 @@ alter user hikma_health with encrypted password 'hikma_health';
 alter database hikma_health owner to hikma_health;
 ```
 
-### Flask server
+### Hikma Health Server (API + Admin)
 
-The server is based on Flask and Python 3.10. Please make sure you have Python 3.10 installed on your computer as described [here](https://www.python.org/downloads/). Also make sure you have a database set up and running - as shown above.
+The server is a full-stack application built with TypeScript and TanStack Start. It combines both the API backend and the admin web interface into a single application. Make sure you have Node.js (v22.14+) and pnpm installed on your computer. Also make sure you have a database set up and running - as shown above.
 
 ```bash
 # Change into the server directory
-cd hikma-health-backend/app
+cd hikma-health-server
 
-# Create a virtual environment
-python3 -m venv venv
+# Install dependencies
+pnpm install
 
-# Activate the virtual environment
-source venv/bin/activate
+# Create a .env file with your database connection string
+# Replace with your actual PostgreSQL credentials
+echo "DATABASE_URL=postgresql://hikma_health:hikma_health@localhost:5432/hikma_health" > .env
 
-# Install the dependencies
-pip3 install -r requirements.txt
+# Run database migrations
+pnpm run migrate:latest
 
-# Take a look at the config.py file and update any variables as needed
-# You may need to create a .env file with the correct values for the variables
-# These variables can be listed as follows:
-APP_ENV=prod
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=hikma_health
-DB_USER=hikma_health
-...
-
-# Start your server
-./run.sh
+# Start the development server (with hot reload)
+pnpm dev
 ```
 
-{% callout title="Quick setup hack!" %}
-You can make changes to the migrations inside the `migrations` folder on initial server start up. This will allow you to create the database tables and columns you need. Whenever you feel the need to "start afresh", you can delete the existing tables and schemas in the DB - PGAdmin is a great tool for this. Then, you can run the migrations again to create the tables and columns you need. This is a quick and dirty way to get started. You can always go back and make the migrations more robust later.
+The application will be available at `http://localhost:3000` and includes both:
+- **API endpoints** for the mobile application
+- **Admin web interface** for managing data through your browser
+
+{% callout title="Production deployment" %}
+For production, you can use the quick deploy buttons in the [repository README](https://github.com/hikmahealth/hikma-health-server) to deploy to Render or DigitalOcean with one click. The application automatically runs migrations on startup and is optimized for reliability in low-resource settings.
 {% /callout %}
-
-### Admin web application
-
-The admin web application is developed using React and the Next.js framework, please make sure you have Node.js and Yarn properly set-up on your computer as described [here](https://reactjs.org/docs/getting-started.html).
-
-```bash
-# Change into the admin web app directory
-cd admin-app
-
-# Install the dependencies
-yarn install
-
-# Create a .env file with the correct HIKMA_API with the following command - edit based on which port the application is running
-echo "REACT_APP_HIKMA_API=http://localhost:8000" > .env
-
-# Start the application
-yarn dev
-```
 
 ### Mobile application
 
 The mobile application is developed using React Native, please make sure you have react-native properly set-up on your computer as described [here](https://reactnative.dev/docs/environment-setup). If your set up is not correct, you will encounter errors when trying to run the application.
 
+⭐️ We recommend that you do not build your own mobile application. Instead, you can use the pre-built mobile application available on the App Store and Google Play Store.
+
+If you insist on building your own mobile application, you can follow the instructions below:
 ```bash
 # Change into the mobile app directory
 cd hikma-health-app
 
 # Install the dependencies
-yarn install
+pnpm install
 
 # Create a .env file with the correct API_URL with the following command - edit based on which port the application is running
-echo "API_URL=http://localhost:8000" > .env
+echo "API_URL=http://localhost:3000" > .env
 
 # Start the application
-yarn android && yarn start
+pnpm android && pnpm start
 ```
 
 ---
@@ -190,7 +176,7 @@ The best place to learn more about the Hikma Health platform is to visit our web
 
 ### Submit an issue
 
-If you have a question or need help with getting started, please either send an email to [tech@hikmahealth.org](mailto:tech@hikmahealth.org) or submit an issue on the appropriate repository - which you can find here [GitHub repository](https://github.om/hikmahealth)
+If you have a question or need help with getting started, please either send an email to [tech@hikmahealth.org](mailto:tech@hikmahealth.org) or submit an issue on the appropriate repository - which you can find here [GitHub repository](https://github.com/hikmahealth)
 
 ### Join the community
 

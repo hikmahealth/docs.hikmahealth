@@ -12,7 +12,7 @@ JavaScript is single-threaded and generally is not very performant to deliver as
 #### Notes:
 
 - We use watermelondb with JSI enable (running on SQLITE)
-- Prefer Flashlist for long lists over react-native's Flatlist
+- Prefer LegendList for long lists over react-native's Flatlist
 - Always add a `key` to any item that is rendered in a loop
 - Prefer smaller pure functional (dumb) components that render the same output given the same inputs
 - Do not sacrifice developer and organization productivity for the same of micro-optimizations

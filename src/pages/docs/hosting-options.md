@@ -12,6 +12,7 @@ The Hikma Health EHR can be hosted on almost all hosting providers. You can eith
 To keep overall costs low, it is recommended to deploy on a serverless service on any of your favorite cloud hosting providers. There are many options including:
 
 - [Render](https://render.com/) (Recommended)
+- [Fly](https://fly.io/)
 - [AWS Lambda](https://aws.amazon.com/lambda/)
 - [Google Cloud Functions](https://cloud.google.com/functions)
 - [Google Cloud Run](https://cloud.google.com/run)

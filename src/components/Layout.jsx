@@ -16,6 +16,7 @@ const navigation = [
     title: 'Introduction',
     links: [
       { title: 'Getting started', href: '/' },
+      { title: 'Releases & Changes', href: '/docs/changelog' },
       { title: 'Try the demo', href: '/docs/try-demo' },
       { title: 'FAQ', href: '/docs/faq' },
       // { title: 'Installation', href: '/docs/installation' },
@@ -61,7 +62,7 @@ const navigation = [
     links: [
       { title: 'Customization Options', href: '/docs/contributing-hh' },
     ],
-  }, 
+  },
   {
     title: 'Contributing',
     links: [

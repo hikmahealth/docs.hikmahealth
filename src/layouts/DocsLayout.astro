@@ -1,0 +1,369 @@
+---
+import type { MarkdownHeading } from "astro";
+import Layout from "./Layout.astro";
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
+import TableOfContents from "../components/TableOfContents.astro";
+import { navigation } from "../data/navigation";
+
+interface Props {
+  title: string;
+  description?: string;
+  section?: string;
+  headings: MarkdownHeading[];
+}
+
+const { title, description, section, headings } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+---
+
+<Layout title={`${title} - Hikma Health Docs`} description={description}>
+  <Header />
+
+  <div class="flex max-w-[90rem] mx-auto">
+    <!-- Left Sidebar (desktop) -->
+    <Sidebar currentPath={currentPath} />
+
+    <!-- Mobile sidebar overlay -->
+    <div
+      id="mobile-sidebar-overlay"
+      class="fixed inset-0 z-40 bg-black/50 hidden lg:hidden"
+      aria-hidden="true"
+    >
+      <div class="w-72 h-full bg-white dark:bg-gray-950 overflow-y-auto border-r border-gray-200 dark:border-gray-800">
+        <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-800">
+          <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Navigation</span>
+          <button
+            id="mobile-sidebar-close"
+            class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label="Close navigation"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="py-6 px-4">
+          <ul class="space-y-6">
+            {navigation.map((navSection) => (
+              <li>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 px-3 mb-1">
+                  {navSection.emoji && <span class="mr-1">{navSection.emoji}</span>}
+                  {navSection.title}
+                </h3>
+                <ul class="mt-1 space-y-0.5 border-l border-gray-200 dark:border-gray-700 ml-3">
+                  {navSection.items.map((item) => {
+                    const isActive = currentPath === item.href;
+                    return (
+                      <li>
+                        <a
+                          href={item.href}
+                          class:list={[
+                            "block pl-4 py-1.5 text-sm transition-colors border-l-2 -ml-px",
+                            isActive
+                              ? "border-primary-500 text-primary-600 dark:text-primary-400 font-medium"
+                              : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600",
+                          ]}
+                          aria-current={isActive ? "page" : undefined}
+                        >
+                          {item.title}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 min-w-0 px-6 sm:px-8 lg:px-12 py-8 max-w-3xl">
+      {section && (
+        <p class="text-sm font-medium text-primary-600 dark:text-primary-400 mb-1">
+          {section}
+        </p>
+      )}
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-4">
+        {title}
+      </h1>
+      {description && (
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+          {description}
+        </p>
+      )}
+
+      <article class="prose-doc">
+        <slot />
+      </article>
+    </main>
+
+    <!-- Right Table of Contents -->
+    <TableOfContents headings={headings} />
+  </div>
+</Layout>
+
+<style is:global>
+  /* ===== Prose styles for rendered markdown ===== */
+
+  /* Headings */
+  .prose-doc h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    color: #111827;
+    scroll-margin-top: 5rem;
+  }
+  :is(.dark) .prose-doc h2 {
+    border-color: #374151;
+    color: #f3f4f6;
+  }
+
+  .prose-doc h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #111827;
+    scroll-margin-top: 5rem;
+  }
+  :is(.dark) .prose-doc h3 {
+    color: #f3f4f6;
+  }
+
+  .prose-doc h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #111827;
+    scroll-margin-top: 5rem;
+  }
+  :is(.dark) .prose-doc h4 {
+    color: #f3f4f6;
+  }
+
+  /* Paragraphs */
+  .prose-doc p {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+    color: #374151;
+  }
+  :is(.dark) .prose-doc p {
+    color: #d1d5db;
+  }
+
+  /* Links */
+  .prose-doc a {
+    color: #2f51b3;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s ease;
+  }
+  .prose-doc a:hover {
+    color: #26418f;
+  }
+  :is(.dark) .prose-doc a {
+    color: #7189db;
+  }
+  :is(.dark) .prose-doc a:hover {
+    color: #94a7e4;
+  }
+
+  /* Lists */
+  .prose-doc ul,
+  .prose-doc ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  .prose-doc ul {
+    list-style-type: disc;
+  }
+  .prose-doc ol {
+    list-style-type: decimal;
+  }
+  .prose-doc li {
+    margin-bottom: 0.25rem;
+    line-height: 1.75;
+    color: #374151;
+  }
+  :is(.dark) .prose-doc li {
+    color: #d1d5db;
+  }
+  .prose-doc li > ul,
+  .prose-doc li > ol {
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+  }
+
+  /* Inline code */
+  .prose-doc code {
+    background: #f3f4f6;
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.375rem;
+    font-size: 0.875rem;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+      monospace;
+    color: #1f2937;
+  }
+  :is(.dark) .prose-doc code {
+    background: #1f2937;
+    color: #e5e7eb;
+  }
+
+  /* Code blocks */
+  .prose-doc pre {
+    background: #1e293b;
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid #334155;
+  }
+  :is(.dark) .prose-doc pre {
+    background: #0f172a;
+    border-color: #1e293b;
+  }
+  .prose-doc pre code {
+    background: transparent;
+    padding: 0;
+    color: #e2e8f0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    border-radius: 0;
+  }
+
+  /* Horizontal rules */
+  .prose-doc hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 2.5rem 0;
+  }
+  :is(.dark) .prose-doc hr {
+    border-color: #374151;
+  }
+
+  /* Strong / emphasis */
+  .prose-doc strong {
+    font-weight: 600;
+    color: #111827;
+  }
+  :is(.dark) .prose-doc strong {
+    color: #f9fafb;
+  }
+
+  .prose-doc em {
+    font-style: italic;
+  }
+
+  /* Blockquotes */
+  .prose-doc blockquote {
+    border-left: 4px solid #4d6cd2;
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    background: #eef1fb;
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+  :is(.dark) .prose-doc blockquote {
+    background: rgba(47, 81, 179, 0.08);
+    border-left-color: #2f51b3;
+  }
+  .prose-doc blockquote p {
+    margin-bottom: 0;
+  }
+  .prose-doc blockquote p + p {
+    margin-top: 0.5rem;
+  }
+
+  /* Tables */
+  .prose-doc table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+  }
+  .prose-doc th,
+  .prose-doc td {
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  :is(.dark) .prose-doc th,
+  :is(.dark) .prose-doc td {
+    border-color: #374151;
+  }
+  .prose-doc th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #111827;
+  }
+  :is(.dark) .prose-doc th {
+    background: #1f2937;
+    color: #f3f4f6;
+  }
+
+  /* Images */
+  .prose-doc img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+  }
+
+  /* First child no top margin */
+  .prose-doc > :first-child {
+    margin-top: 0;
+  }
+</style>
+
+<script>
+  function initDocsLayout() {
+    // Mobile sidebar toggle
+    const toggle = document.getElementById("mobile-menu-toggle");
+    const overlay = document.getElementById("mobile-sidebar-overlay");
+    const closeBtn = document.getElementById("mobile-sidebar-close");
+
+    function openSidebar() {
+      overlay?.classList.remove("hidden");
+      overlay?.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeSidebar() {
+      overlay?.classList.add("hidden");
+      overlay?.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    toggle?.addEventListener("click", openSidebar);
+    closeBtn?.addEventListener("click", closeSidebar);
+    overlay?.addEventListener("click", (e) => {
+      if (e.target === overlay) closeSidebar();
+    });
+
+    // Close sidebar on Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !overlay?.classList.contains("hidden")) {
+        closeSidebar();
+      }
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById("theme-toggle");
+    themeToggle?.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+  }
+
+  // Run on initial load
+  initDocsLayout();
+
+  // Re-run on Astro page transitions if using View Transitions
+  document.addEventListener("astro:after-swap", initDocsLayout);
+</script>

@@ -1,11 +1,253 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import DocCard from "../components/DocCard.astro";
+import HikmaHeroStream from "../components/HikmaHeroStream.tsx";
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+    title="Hikma Health Docs"
+    description="Documentation for the Hikma Health open source electronic health record platform."
+>
+    <Header />
+
+    <main class="min-h-[calc(100vh-4rem)]">
+        <!-- Hero -->
+        <section
+            class="relative overflow-hidden border-b border-gray-200 dark:border-gray-800"
+        >
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-hikma-50 via-white to-primary-50 dark:from-hikma-950/30 dark:via-gray-950 dark:to-primary-950/30"
+            >
+            </div>
+            <div
+                class="relative max-w-4xl mx-auto px-6 py-20 sm:py-28 text-center"
+            >
+                <div
+                    class="inline-flex items-center gap-2 rounded-full bg-hikma-100 dark:bg-hikma-900/40 px-4 py-1.5 text-sm font-medium text-hikma-700 dark:text-hikma-300 mb-6"
+                >
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-hikma-500 opacity-75"
+                        ></span>
+                        <span
+                            class="relative inline-flex rounded-full h-2 w-2 bg-hikma-500"
+                        ></span>
+                    </span>
+                    Open Source &middot; Digital Public Good
+                </div>
+                <h1
+                    class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight"
+                >
+                    Hikma Health<br />
+                    <span class="text-hikma-600 dark:text-hikma-400"
+                        >Documentation</span
+                    >
+                </h1>
+                <p
+                    class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
+                >
+                    The complete guide to deploying, customizing, and
+                    contributing to the Hikma Health open source electronic
+                    health record platform.
+                </p>
+
+                <div class="mt-10 w-full max-w-3xl mx-auto">
+                    <HikmaHeroStream client:load />
+                </div>
+
+                <div
+                    class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+                >
+                    <a
+                        href="/docs/introduction/getting-started"
+                        class="inline-flex items-center gap-2 rounded-lg bg-hikma-600 hover:bg-hikma-700 px-6 py-3 text-base font-medium text-white shadow-sm transition-colors"
+                    >
+                        Get started
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                    <a
+                        href="https://github.com/hikmahealth"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-6 py-3 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm transition-colors"
+                    >
+                        <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                            ></path>
+                        </svg>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Cards -->
+        <section class="max-w-5xl mx-auto px-6 py-16 sm:py-20">
+            <h2
+                class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center mb-4"
+            >
+                Explore the docs
+            </h2>
+            <p
+                class="text-gray-600 dark:text-gray-400 text-center max-w-xl mx-auto mb-12"
+            >
+                Everything you need to set up, run, and customize Hikma Health
+                for your organization.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <DocCard
+                    title="Quick Start"
+                    description="Get up and running with Hikma Health in under thirty minutes."
+                    href="/docs/introduction/getting-started"
+                    icon="🚀"
+                />
+                <DocCard
+                    title="Architecture Guide"
+                    description="Understand how the server, mobile app, and database fit together."
+                    href="/docs/core-concepts/architecture-guide"
+                    icon="🏗️"
+                />
+                <DocCard
+                    title="Deployment"
+                    description="Deploy to production with one-click buttons for Render and DigitalOcean."
+                    href="/docs/deployment/quick-start"
+                    icon="☁️"
+                />
+                <DocCard
+                    title="Dynamic Forms"
+                    description="Create and customize data collection forms without writing code."
+                    href="/docs/core-concepts/dynamic-event-forms"
+                    icon="📋"
+                />
+                <DocCard
+                    title="Customization"
+                    description="Tailor the platform to your organization's specific needs."
+                    href="/docs/customization/customization-options"
+                    icon="🔧"
+                />
+                <DocCard
+                    title="Contributing"
+                    description="Help improve Hikma Health for communities around the world."
+                    href="/docs/contributing/how-to-contribute"
+                    icon="🤝"
+                />
+            </div>
+        </section>
+
+        <!-- Bottom CTA -->
+        <section
+            class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50"
+        >
+            <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+                <p
+                    class="text-sm font-medium text-hikma-600 dark:text-hikma-400 mb-2"
+                >
+                    Open source
+                </p>
+                <h2
+                    class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4"
+                >
+                    Built for the communities that need it most
+                </h2>
+                <p
+                    class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed"
+                >
+                    Hikma Health is free, open source, and committed to being a
+                    digital public good. We believe the best way to build a
+                    better future is to share our work with the world.
+                </p>
+                <div
+                    class="flex flex-col sm:flex-row items-center justify-center gap-4"
+                >
+                    <a
+                        href="/docs/introduction/getting-started"
+                        class="inline-flex items-center gap-2 rounded-lg bg-hikma-600 hover:bg-hikma-700 px-5 py-2.5 text-sm font-medium text-white transition-colors"
+                    >
+                        Read the docs
+                    </a>
+                    <a
+                        href="https://hikmahealth.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
+                    >
+                        Visit hikmahealth.org
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            ></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 dark:border-gray-800 py-8 px-6">
+        <div
+            class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400"
+        >
+            <p>
+                &copy; {new Date().getFullYear()} Hikma Health. All rights reserved.
+            </p>
+            <div class="flex items-center gap-6">
+                <a
+                    href="https://hikmahealth.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                    >Website</a
+                >
+                <a
+                    href="https://github.com/hikmahealth"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                    >GitHub</a
+                >
+                <a
+                    href="mailto:tech@hikmahealth.org"
+                    class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                    >Contact</a
+                >
+            </div>
+        </div>
+    </footer>
 </Layout>
+
+<script>
+    // Theme toggle (reuse from docs layout)
+    const themeToggle = document.getElementById("theme-toggle");
+    themeToggle?.addEventListener("click", () => {
+        const isDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+</script>

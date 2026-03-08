@@ -1,23 +1,69 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import "virtual:uno.css";
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const {
+    title = "Hikma Health Docs",
+    description = "Documentation for the Hikma Health open source project",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <style is:inline>
+            @font-face {
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 100 900;
+                font-display: swap;
+                src: url('/fonts/Inter-roman.var.woff2') format('woff2');
+            }
+            @font-face {
+                font-family: 'Inter';
+                font-style: italic;
+                font-weight: 100 900;
+                font-display: swap;
+                src: url('/fonts/Inter-italic.var.woff2') format('woff2');
+            }
+            @font-face {
+                font-family: 'Lexend';
+                font-style: normal;
+                font-weight: 100 900;
+                font-display: swap;
+                src: url('/fonts/lexend.woff2') format('woff2');
+            }
+        </style>
+        <meta name="generator" content={Astro.generator} />
+        <meta name="description" content={description} />
+        <title>{title}</title>
+        <script is:inline>
+            // Theme initialization - runs before page renders to prevent flash
+            const theme = localStorage.getItem("theme");
+            if (
+                theme === "dark" ||
+                (!theme &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+                document.documentElement.classList.add("dark");
+            }
+        </script>
+    </head>
+    <body
+        class="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans antialiased"
+    >
+        <slot />
+    </body>
+</html>

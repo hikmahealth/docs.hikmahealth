@@ -18,6 +18,7 @@ export const navigation: NavSection[] = [
         title: "Releases & Changes",
         href: "/docs/introduction/releases-and-changes",
       },
+      { title: "Key Concepts", href: "/docs/introduction/key-concepts" },
       { title: "Try the demo", href: "/docs/introduction/try-the-demo" },
       { title: "FAQ", href: "/docs/introduction/faq" },
     ],
@@ -48,9 +49,19 @@ export const navigation: NavSection[] = [
         title: "Offline & Sync",
         href: "/docs/core-concepts/offline-and-sync",
       },
+    ],
+  },
+  {
+    title: "Security",
+    emoji: "🔒",
+    items: [
       {
-        title: "🔒 Security Considerations",
-        href: "/docs/core-concepts/security-considerations",
+        title: "Security Considerations",
+        href: "/docs/security-guides/security-considerations",
+      },
+      {
+        title: "Permissions & Access Control",
+        href: "/docs/security-guides/permissions-and-capabilities",
       },
     ],
   },
@@ -58,14 +69,13 @@ export const navigation: NavSection[] = [
     title: "Mobile Guides",
     items: [
       { title: "Overview", href: "/docs/mobile-guides/overview" },
+      { title: "Data Synchronization", href: "/docs/mobile-guides/data-sync" },
       { title: "Performance", href: "/docs/mobile-guides/performance" },
     ],
   },
   {
     title: "Server Guides",
-    items: [
-      { title: "Overview", href: "/docs/server-guides/overview" },
-    ],
+    items: [{ title: "Overview", href: "/docs/server-guides/overview" }],
   },
   {
     title: "Customization",

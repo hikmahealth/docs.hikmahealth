@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import DocCard from "../components/DocCard.astro";
 import HikmaHeroStream from "../components/HikmaHeroStream.tsx";
+import { navigation } from "../data/navigation";
 ---
 
 <Layout
@@ -10,6 +11,52 @@ import HikmaHeroStream from "../components/HikmaHeroStream.tsx";
     description="Documentation for the Hikma Health open source electronic health record platform."
 >
     <Header />
+
+    <!-- Mobile navigation overlay -->
+    <div
+      id="mobile-sidebar-overlay"
+      class="fixed inset-0 z-40 bg-black/50 hidden lg:hidden"
+      aria-hidden="true"
+    >
+      <div class="w-72 h-full bg-white dark:bg-gray-950 overflow-y-auto border-r border-gray-200 dark:border-gray-800">
+        <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-800">
+          <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Navigation</span>
+          <button
+            id="mobile-sidebar-close"
+            class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label="Close navigation"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="py-6 px-4">
+          <ul class="space-y-6">
+            {navigation.map((navSection) => (
+              <li>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 px-3 mb-1">
+                  {navSection.emoji && <span class="mr-1">{navSection.emoji}</span>}
+                  {navSection.title}
+                </h3>
+                <ul class="mt-1 space-y-0.5 border-l border-gray-200 dark:border-gray-700 ml-3">
+                  {navSection.items.map((item) => (
+                    <li>
+                      <a
+                        href={item.href}
+                        class="block pl-4 py-1.5 text-sm transition-colors border-l-2 -ml-px border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600"
+                      >
+                        {item.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
 
     <main class="min-h-[calc(100vh-4rem)]">
         <!-- Hero -->
@@ -244,10 +291,44 @@ import HikmaHeroStream from "../components/HikmaHeroStream.tsx";
 </Layout>
 
 <script>
-    // Theme toggle (reuse from docs layout)
-    const themeToggle = document.getElementById("theme-toggle");
-    themeToggle?.addEventListener("click", () => {
-        const isDark = document.documentElement.classList.toggle("dark");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-    });
+    function initHomePage() {
+        // Mobile sidebar toggle
+        const toggle = document.getElementById("mobile-menu-toggle");
+        const overlay = document.getElementById("mobile-sidebar-overlay");
+        const closeBtn = document.getElementById("mobile-sidebar-close");
+
+        function openSidebar() {
+            overlay?.classList.remove("hidden");
+            overlay?.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeSidebar() {
+            overlay?.classList.add("hidden");
+            overlay?.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }
+
+        toggle?.addEventListener("click", openSidebar);
+        closeBtn?.addEventListener("click", closeSidebar);
+        overlay?.addEventListener("click", (e) => {
+            if (e.target === overlay) closeSidebar();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !overlay?.classList.contains("hidden")) {
+                closeSidebar();
+            }
+        });
+
+        // Theme toggle
+        const themeToggle = document.getElementById("theme-toggle");
+        themeToggle?.addEventListener("click", () => {
+            const isDark = document.documentElement.classList.toggle("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+        });
+    }
+
+    initHomePage();
+    document.addEventListener("astro:after-swap", initHomePage);
 </script>

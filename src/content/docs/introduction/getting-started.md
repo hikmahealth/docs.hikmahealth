@@ -13,12 +13,12 @@ This documentation is continuously improving and expanding. If you have any ques
 For the rest of this documentation, it is important to keep in mind that the platform is a collection of 3 different core technologies/applications:
 
 - **Hikma Health Server** - A full-stack application (combines server API and admin web interface)
-- **Hikma Health Mobile Application** (Android only)
+- **Hikma Health Mobile Application** (Android and iOS)
 - **Database**
 
 Together they form the Hikma Health platform. The server is the core of the platform and includes both the API backend and the admin web interface in a single application. It's built with TypeScript and TanStack Start, designed for offline-first operation. The mobile application allows users to collect data in the field. The database is a relational database (PostgreSQL) that stores all the data.
 
-> **Migrating from the old Python version?** If you previously used the separate `hikma-health-backend` (Python/Flask) and `hikma-health-admin` (Next.js) repositories, they have now been combined into a single modern full-stack application. Migration is straightforward - the new system uses the same PostgreSQL database and automatically runs migrations on startup. See the migration guide for details.
+> **Migrating from the old Python version?** If you previously used the separate `hikma-health-backend` (Python/Flask) and `hikma-health-admin` (Next.js) repositories, they have now been combined into a single modern full-stack application. Migration is straightforward - the new system uses the same PostgreSQL database and automatically runs migrations on startup. The migration system is backwards-compatible with the legacy Alembic migrations from the Python era. See the migration guide for details.
 
 ### Requirements
 
@@ -27,7 +27,7 @@ To get started with each of the applications, you will need to have the followin
 **For the Server (API + Admin):**
 
 - **Git:** A version control system that allows you to download the code from GitHub.
-- **Node.js (v22.14 or higher):** A JavaScript runtime that allows you to run JavaScript code outside of a browser.
+- **Node.js (v24.14.0):** A JavaScript runtime that allows you to run JavaScript code outside of a browser.
 - **pnpm:** A fast, disk space efficient package manager (install with `npm install -g pnpm`).
 - **PostgreSQL:** A relational database that stores all the data.
 - **PGAdmin (Recommended):** A tool that allows you to manage PostgreSQL databases. Can save you a lot of time.
@@ -95,7 +95,7 @@ alter database hikma_health owner to hikma_health;
 
 ### Hikma Health Server (API + Admin)
 
-The server is a full-stack application built with TypeScript and TanStack Start. It combines both the API backend and the admin web interface into a single application. Make sure you have Node.js (v22.14+) and pnpm installed on your computer. Also make sure you have a database set up and running - as shown above.
+The server is a full-stack application built with TypeScript and TanStack Start. It combines both the API backend and the admin web interface into a single application. Make sure you have Node.js (v24.14.0) and pnpm installed on your computer. Also make sure you have a database set up and running - as shown above.
 
 ```
 # Change into the server directory
@@ -104,10 +104,23 @@ cd hikma-health-server
 # Install dependencies
 pnpm install
 
-# Create a .env file with your database connection string
-# Replace with your actual PostgreSQL credentials
-echo "DATABASE_URL=postgresql://hikma_health:hikma_health@localhost:5432/hikma_health" > .env
+# Create a .env file from the template
+cp .env.example .env
+```
 
+Open the `.env` file and configure your database connection. The simplest approach is to set the `DATABASE_URL`:
+
+```
+DATABASE_URL=postgresql://hikma_health:hikma_health@localhost:5432/hikma_health
+```
+
+Alternatively, you can configure individual database variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`). See `.env.example` for all available options including SSL settings, storage buckets, and Sentry monitoring.
+
+> **Getting default credentials:** The application does not yet have a WordPress-style admin setup flow. To get the default login credentials for the admin interface, email the maintainer at [ally@hikmahealth.org](mailto:ally@hikmahealth.org).
+
+Once your `.env` is configured:
+
+```
 # Run database migrations
 pnpm run migrate:latest
 
@@ -120,7 +133,24 @@ The application will be available at `http://localhost:3000` and includes both:
 - **API endpoints** for the mobile application
 - **Admin web interface** for managing data through your browser
 
-> **Production deployment:** For production, you can use the quick deploy buttons in the repository README to deploy to Render or DigitalOcean with one click. The application automatically runs migrations on startup and is optimized for reliability in low-resource settings.
+#### Available scripts
+
+| Command | Description |
+|---|---|
+| `pnpm dev` | Start the dev server with hot reload on port 3000 |
+| `pnpm build` | Build the application for production |
+| `pnpm start` | Production start (runs migrations + permission recovery automatically) |
+| `pnpm migrate:latest` | Run all pending database migrations |
+| `pnpm test` | Run all tests (unit + integration) |
+| `pnpm test:watch` | Run unit tests in watch mode |
+| `pnpm test:e2e` | Run Playwright end-to-end tests |
+| `pnpm test:coverage` | Generate test coverage report |
+| `pnpm lint` | Run the linter (Biome) |
+| `pnpm format` | Auto-format code (Biome) |
+| `pnpm recovery:permissions` | Fix user role and clinic permission issues |
+| `pnpm recovery:permissions:dry-run` | Preview permission fixes without applying |
+
+> **Production deployment:** For production, fork the repository into your own GitHub organization first, then use the deploy buttons in your fork's README to deploy to Render or DigitalOcean with one click. The application automatically runs migrations and permission recovery on startup and is optimized for reliability in low-resource settings.
 
 ### Mobile application
 

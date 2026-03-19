@@ -13,11 +13,11 @@ The Hikma Health Server is a full-stack TypeScript application built with TanSta
 - **Unified codebase** — API endpoints and admin dashboard live in one repository
 - **Automatic migrations** — Database schema updates run on startup
 - **Offline-aware** — Designed to handle sync from mobile clients operating in low-connectivity environments
-- **One-click deploy** — Quick deploy buttons for Render and DigitalOcean in the repository README
+- **One-click deploy** — Fork the repository, then use the deploy buttons in your fork's README for Render and DigitalOcean
 
 ### Tech Stack
 
-- **Runtime:** Node.js (v22.14+)
+- **Runtime:** Node.js v24.14.0
 - **Framework:** TanStack Start
 - **Language:** TypeScript
 - **Database:** PostgreSQL

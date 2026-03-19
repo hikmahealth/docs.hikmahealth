@@ -13,29 +13,26 @@ Thank you for your interest in contributing to the Hikma Health project! We're e
 
 ### Development workflow
 
-We use trunk-based development with `dev` as the main development branch.
+We use trunk-based development with `dev` as our trunk. All work lands in `dev` through short-lived feature branches.
 
 1. Fork the repository and clone it locally.
-2. Create feature branches from `dev` (not `main`).
+2. Create a short-lived branch from `dev`.
 3. Make changes with clear commit messages.
 4. Run tests.
-5. Submit PRs against `dev`.
+5. Submit a PR against `dev`.
 6. Await code review and address feedback.
 7. Merge to `dev` once approved.
-8. Periodically, `dev` is merged to `main` for production releases.
 
-**Branch strategy:**
+**Branches:**
 
-- `main` — Production-ready, stable releases
-- `dev` — Active development
-- `feature/*` — Feature branches from `dev`
-- `fix/*` — Bug fix branches from `dev`
+- `main` — Production releases only. No direct pushes or external PRs — `main` is updated exclusively by merging `dev` internally.
+- `dev` — The trunk. All PRs target this branch.
 
 ### Getting started
 
 **Prerequisites:**
 
-- Node.js 22.14 or higher
+- Node.js v24.14.0
 - pnpm (package manager)
 - PostgreSQL (local or remote)
 - Git

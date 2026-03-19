@@ -10,7 +10,7 @@ Hikma Health can be hosted on a variety of platforms. This guide compares the mo
 
 ### Render
 
-[Render](https://render.com) is a modern cloud platform that makes it easy to deploy web applications. The Hikma Health server repository includes a one-click deploy button for Render.
+[Render](https://render.com) is a modern cloud platform that makes it easy to deploy web applications. Fork the [hikma-health-server repository](https://github.com/hikmahealth/hikma-health-server) into your own organization first, then use the deploy button in your fork's README to deploy to Render.
 
 - Free tier available for getting started
 - Automatic deployments from GitHub
@@ -19,7 +19,7 @@ Hikma Health can be hosted on a variety of platforms. This guide compares the mo
 
 ### DigitalOcean
 
-[DigitalOcean](https://www.digitalocean.com) provides scalable cloud infrastructure. You can use the one-click deploy button in the server repository to deploy to DigitalOcean App Platform.
+[DigitalOcean](https://www.digitalocean.com) provides scalable cloud infrastructure. As with Render, fork the [server repository](https://github.com/hikmahealth/hikma-health-server) first, then use the deploy button in your fork to deploy to DigitalOcean App Platform.
 
 - Predictable pricing starting at $5/month
 - Managed databases available
@@ -32,7 +32,7 @@ You can also host Hikma Health on your own infrastructure or any VPS provider. T
 
 **Requirements:**
 
-- Node.js v22.14 or higher
+- Node.js v24.14.0
 - PostgreSQL database
 - A reverse proxy (e.g., Nginx or Caddy) for SSL termination
 

@@ -3,6 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import DocCard from "../components/DocCard.astro";
 import HikmaHeroStream from "../components/HikmaHeroStream.tsx";
+import ImpactStats from "../components/ImpactStats.tsx";
+import PlatformPillars from "../components/PlatformPillars.tsx";
+import PlatformOverview from "../components/PlatformOverview.tsx";
 import { navigation } from "../data/navigation";
 ---
 
@@ -14,48 +17,70 @@ import { navigation } from "../data/navigation";
 
     <!-- Mobile navigation overlay -->
     <div
-      id="mobile-sidebar-overlay"
-      class="fixed inset-0 z-40 bg-black/50 hidden lg:hidden"
-      aria-hidden="true"
+        id="mobile-sidebar-overlay"
+        class="fixed inset-0 z-40 bg-black/50 hidden lg:hidden"
+        aria-hidden="true"
     >
-      <div class="w-72 h-full bg-white dark:bg-gray-950 overflow-y-auto border-r border-gray-200 dark:border-gray-800">
-        <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-800">
-          <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Navigation</span>
-          <button
-            id="mobile-sidebar-close"
-            class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            aria-label="Close navigation"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="py-6 px-4">
-          <ul class="space-y-6">
-            {navigation.map((navSection) => (
-              <li>
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 px-3 mb-1">
-                  {navSection.emoji && <span class="mr-1">{navSection.emoji}</span>}
-                  {navSection.title}
-                </h3>
-                <ul class="mt-1 space-y-0.5 border-l border-gray-200 dark:border-gray-700 ml-3">
-                  {navSection.items.map((item) => (
-                    <li>
-                      <a
-                        href={item.href}
-                        class="block pl-4 py-1.5 text-sm transition-colors border-l-2 -ml-px border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600"
-                      >
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
+        <div
+            class="w-72 h-full bg-white dark:bg-gray-950 overflow-y-auto border-r border-gray-200 dark:border-gray-800"
+        >
+            <div
+                class="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-800"
+            >
+                <span
+                    class="text-sm font-semibold text-gray-900 dark:text-gray-100"
+                    >Navigation</span
+                >
+                <button
+                    id="mobile-sidebar-close"
+                    class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    aria-label="Close navigation"
+                >
+                    <svg
+                        class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="py-6 px-4">
+                <ul class="space-y-6">
+                    {
+                        navigation.map((navSection) => (
+                            <li>
+                                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 px-3 mb-1">
+                                    {navSection.emoji && (
+                                        <span class="mr-1">
+                                            {navSection.emoji}
+                                        </span>
+                                    )}
+                                    {navSection.title}
+                                </h3>
+                                <ul class="mt-1 space-y-0.5 border-l border-gray-200 dark:border-gray-700 ml-3">
+                                    {navSection.items.map((item) => (
+                                        <li>
+                                            <a
+                                                href={item.href}
+                                                class="block pl-4 py-1.5 text-sm transition-colors border-l-2 -ml-px border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600"
+                                            >
+                                                {item.title}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        ))
+                    }
                 </ul>
-              </li>
-            ))}
-          </ul>
+            </div>
         </div>
-      </div>
     </div>
 
     <main class="min-h-[calc(100vh-4rem)]">
@@ -81,22 +106,20 @@ import { navigation } from "../data/navigation";
                             class="relative inline-flex rounded-full h-2 w-2 bg-hikma-500"
                         ></span>
                     </span>
-                    Open Source &middot; Digital Public Good
+                    Open Source
                 </div>
                 <h1
-                    class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight"
+                    class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight"
                 >
-                    Hikma Health<br />
-                    <span class="text-hikma-600 dark:text-hikma-400"
-                        >Documentation</span
-                    >
+                    The first free mobile health data system for physicians
+                    serving refugees.
                 </h1>
                 <p
                     class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
                 >
-                    The complete guide to deploying, customizing, and
-                    contributing to the Hikma Health open source electronic
-                    health record platform.
+                    Complete ecosystem of open source tooling for health
+                    facilities, organizations and providers to deliver care
+                    reliably.
                 </p>
 
                 <div class="mt-10 w-full max-w-3xl mx-auto">
@@ -147,18 +170,63 @@ import { navigation } from "../data/navigation";
             </div>
         </section>
 
-        <!-- Feature Cards -->
+        <!-- Impact Stats -->
+        <section
+            class="border-b border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30"
+        >
+            <div class="max-w-4xl mx-auto px-6 py-12 sm:py-16">
+                <ImpactStats client:visible />
+            </div>
+        </section>
+
+        <!-- Platform Pillars -->
         <section class="max-w-5xl mx-auto px-6 py-16 sm:py-20">
             <h2
                 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center mb-4"
             >
-                Explore the docs
+                Built for the field
             </h2>
             <p
                 class="text-gray-600 dark:text-gray-400 text-center max-w-xl mx-auto mb-12"
             >
-                Everything you need to set up, run, and customize Hikma Health
-                for your organization.
+                Designed for low-resource settings where internet, power, and
+                infrastructure are unreliable.
+            </p>
+            <PlatformPillars client:visible />
+        </section>
+
+        <!-- Platform Architecture -->
+        <section
+            class="border-t border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30"
+        >
+            <div class="max-w-5xl mx-auto px-6 py-16 sm:py-20">
+                <h2
+                    class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center mb-4"
+                >
+                    The platform
+                </h2>
+                <p
+                    class="text-gray-600 dark:text-gray-400 text-center max-w-xl mx-auto mb-12"
+                >
+                    Three components that work together — deploy in under thirty
+                    minutes.
+                </p>
+                <PlatformOverview client:visible />
+            </div>
+        </section>
+
+        <!-- Documentation Cards -->
+        <section class="max-w-5xl mx-auto px-6 py-16 sm:py-20">
+            <h2
+                class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center mb-4"
+            >
+                Explore the documentation
+            </h2>
+            <p
+                class="text-gray-600 dark:text-gray-400 text-center max-w-xl mx-auto mb-12"
+            >
+                Everything you need to deploy, customize, and contribute to
+                Hikma Health for your organization.
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <DocCard

@@ -34,7 +34,7 @@ interface OutputItem {
 }
 
 interface AnimationStyle {
-  left: string;
+  position: string;
   opacity: number;
   transform: string;
 }
@@ -265,26 +265,26 @@ function rand(a: number, b: number): number {
 /* ─── Y-position collision avoidance ─── */
 const MIN_Y_GAP = 14; // minimum % gap between items
 
-function pickY(activeYs: number[]): number {
-  // Try up to 20 times to find a non-overlapping y
+function pickY(activeYs: number[], minBound = 12, maxBound = 75): number {
+  // Try up to 20 times to find a non-overlapping position
   for (let attempt = 0; attempt < 20; attempt++) {
-    const candidate = rand(12, 75);
+    const candidate = rand(minBound, maxBound);
     const collision = activeYs.some((y) => Math.abs(y - candidate) < MIN_Y_GAP);
     if (!collision) return candidate;
   }
   // Fallback: use least-crowded region
   const sorted = [...activeYs].sort((a, b) => a - b);
-  if (sorted.length === 0) return rand(12, 75);
+  if (sorted.length === 0) return rand(minBound, maxBound);
 
   let bestGap = 0;
-  let bestMid = 45;
+  let bestMid = (minBound + maxBound) / 2;
 
   // Check gap before first
-  if (sorted[0] > 12 + MIN_Y_GAP) {
-    const gap = sorted[0] - 12;
+  if (sorted[0] > minBound + MIN_Y_GAP) {
+    const gap = sorted[0] - minBound;
     if (gap > bestGap) {
       bestGap = gap;
-      bestMid = 12 + gap / 2;
+      bestMid = minBound + gap / 2;
     }
   }
   // Check gaps between items
@@ -296,15 +296,15 @@ function pickY(activeYs: number[]): number {
     }
   }
   // Check gap after last
-  if (75 - sorted[sorted.length - 1] > MIN_Y_GAP) {
-    const gap = 75 - sorted[sorted.length - 1];
+  if (maxBound - sorted[sorted.length - 1] > MIN_Y_GAP) {
+    const gap = maxBound - sorted[sorted.length - 1];
     if (gap > bestGap) {
       bestGap = gap;
       bestMid = sorted[sorted.length - 1] + gap / 2;
     }
   }
 
-  return Math.max(12, Math.min(75, bestMid));
+  return Math.max(minBound, Math.min(maxBound, bestMid));
 }
 
 /* ─── Dot grid ─── */
@@ -327,7 +327,83 @@ function DotGrid(): ReactNode {
 }
 
 /* ─── Gradient portal ─── */
-function Portal(): ReactNode {
+function Portal({ vertical }: { vertical?: boolean }): ReactNode {
+  // Vertical (mobile): horizontal band across the middle
+  if (vertical) {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
+          height: 120,
+          pointerEvents: "none",
+          zIndex: 3,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: "-60px -20px",
+            background: `radial-gradient(ellipse at center, ${BLUE_GLOW} 0%, transparent 70%)`,
+            filter: "blur(40px)",
+            opacity: 0.25,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: "50%",
+            background: `linear-gradient(to bottom, transparent, ${BG} 30%, rgba(59,130,246,0.03))`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: "8%",
+            right: "12%",
+            top: "50%",
+            height: 2,
+            transform: "translateY(-50%)",
+            background: `linear-gradient(to right, transparent, ${BLUE}, ${BLUE}, transparent)`,
+            opacity: 0.5,
+            boxShadow: `0 0 12px ${BLUE_GLOW}, 0 0 40px ${BLUE_GLOW}`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: "50%",
+            background: `linear-gradient(to top, transparent, ${BG} 30%, rgba(59,130,246,0.03))`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: 8,
+            height: 8,
+            transform: "translate(-50%, -50%) rotate(45deg)",
+            background: BLUE,
+            boxShadow: `0 0 16px ${BLUE_GLOW}, 0 0 40px ${BLUE_GLOW}`,
+            borderRadius: 2,
+            animation: "portalPulse 2s ease-in-out infinite",
+          }}
+        />
+      </div>
+    );
+  }
+
+  // Horizontal (desktop): vertical band down the center
   return (
     <div
       style={{
@@ -402,7 +478,7 @@ function Portal(): ReactNode {
 }
 
 /* ─── Static fallback for prefers-reduced-motion ─── */
-function StaticFallback(): ReactNode {
+function StaticFallback({ vertical }: { vertical?: boolean }): ReactNode {
   const leftPair = dataPairs[0];
   const rightPair = dataPairs[0];
 
@@ -410,11 +486,12 @@ function StaticFallback(): ReactNode {
     <div
       style={{
         display: "flex",
+        flexDirection: vertical ? "column" : "row",
         alignItems: "center",
         justifyContent: "center",
         height: "100%",
-        gap: 40,
-        padding: "0 32px",
+        gap: vertical ? 24 : 40,
+        padding: vertical ? "24px 16px" : "0 32px",
       }}
     >
       {/* Paper side */}
@@ -471,15 +548,27 @@ function StaticFallback(): ReactNode {
       </div>
 
       {/* Arrow */}
-      <svg width="40" height="20" viewBox="0 0 40 20" fill="none">
-        <path
-          d="M0 10h32M26 4l8 6-8 6"
-          stroke={BLUE}
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      {vertical ? (
+        <svg width="20" height="40" viewBox="0 0 20 40" fill="none">
+          <path
+            d="M10 0v32M4 26l6 8 6-8"
+            stroke={BLUE}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ) : (
+        <svg width="40" height="20" viewBox="0 0 40 20" fill="none">
+          <path
+            d="M0 10h32M26 4l8 6-8 6"
+            stroke={BLUE}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
 
       {/* Output side */}
       <div
@@ -520,7 +609,7 @@ function StaticFallback(): ReactNode {
 }
 
 /* ─── Paper snippet ─── */
-function PaperSnippet({ item, onDone }: { item: PaperItem; onDone: () => void }) {
+function PaperSnippet({ item, onDone, vertical }: { item: PaperItem; onDone: () => void; vertical?: boolean }) {
   const [stage, setStage] = useState<"entering" | "drifting" | "exiting">("entering");
 
   useEffect(() => {
@@ -540,33 +629,42 @@ function PaperSnippet({ item, onDone }: { item: PaperItem; onDone: () => void })
     switch (stage) {
       case "entering":
         return {
-          left: "-22%",
+          position: vertical ? "-15%" : "-22%",
           opacity: 0,
-          transform: `rotate(${item.rot}deg) scale(0.9)`,
+          transform: vertical
+            ? "scale(0.9)"
+            : `rotate(${item.rot}deg) scale(0.9)`,
         };
       case "drifting":
         return {
-          left: `${item.restX}%`,
+          position: `${item.restX}%`,
           opacity: 0.95,
-          transform: `rotate(${item.rot}deg) scale(1)`,
+          transform: vertical
+            ? "scale(1)"
+            : `rotate(${item.rot}deg) scale(1)`,
         };
       case "exiting":
         return {
-          left: "42%",
+          position: "42%",
           opacity: 0,
-          transform: "rotate(0deg) scale(0.6)",
+          transform: vertical ? "scale(0.6)" : "rotate(0deg) scale(0.6)",
         };
     }
   };
 
   const s = getStyle();
 
+  // In vertical mode: position animates along top, y spreads horizontally
+  // In horizontal mode: position animates along left, y spreads vertically
+  const animAxis = vertical ? "top" : "left";
+  const spreadAxis = vertical ? "left" : "top";
+
   return (
     <div
       style={{
         position: "absolute",
-        left: s.left,
-        top: `${item.y}%`,
+        [animAxis]: s.position,
+        [spreadAxis]: `${item.y}%`,
         transform: s.transform,
         opacity: s.opacity,
         transition:
@@ -637,7 +735,7 @@ function PaperSnippet({ item, onDone }: { item: PaperItem; onDone: () => void })
 }
 
 /* ─── Structured output card ─── */
-function OutputCard({ item, onDone }: { item: OutputItem; onDone: () => void }) {
+function OutputCard({ item, onDone, vertical }: { item: OutputItem; onDone: () => void; vertical?: boolean }) {
   const [stage, setStage] = useState<"entering" | "resting" | "exiting">("entering");
 
   useEffect(() => {
@@ -656,22 +754,25 @@ function OutputCard({ item, onDone }: { item: OutputItem; onDone: () => void }) 
   const getStyle = (): AnimationStyle => {
     switch (stage) {
       case "entering":
-        return { left: "54%", opacity: 0, transform: "scale(0.6)" };
+        return { position: "54%", opacity: 0, transform: "scale(0.6)" };
       case "resting":
-        return { left: `${item.restX}%`, opacity: 0.92, transform: "scale(1)" };
+        return { position: `${item.restX}%`, opacity: 0.92, transform: "scale(1)" };
       case "exiting":
-        return { left: "105%", opacity: 0, transform: "scale(0.95)" };
+        return { position: "105%", opacity: 0, transform: "scale(0.95)" };
     }
   };
 
   const s = getStyle();
 
+  const animAxis = vertical ? "top" : "left";
+  const spreadAxis = vertical ? "left" : "top";
+
   return (
     <div
       style={{
         position: "absolute",
-        left: s.left,
-        top: `${item.y}%`,
+        [animAxis]: s.position,
+        [spreadAxis]: `${item.y}%`,
         transform: s.transform,
         opacity: s.opacity,
         transition:
@@ -723,14 +824,15 @@ function OutputCard({ item, onDone }: { item: OutputItem; onDone: () => void }) 
 }
 
 /* ─── Column labels ─── */
-function ColumnLabels(): ReactNode {
+function ColumnLabels({ vertical }: { vertical?: boolean }): ReactNode {
   return (
     <>
       <div
         style={{
           position: "absolute",
-          top: 16,
-          left: 20,
+          top: vertical ? 12 : 16,
+          left: vertical ? "50%" : 20,
+          transform: vertical ? "translateX(-50%)" : undefined,
           fontSize: 10,
           fontWeight: 600,
           color: "rgba(255,255,255,0.3)",
@@ -744,8 +846,11 @@ function ColumnLabels(): ReactNode {
       <div
         style={{
           position: "absolute",
-          top: 16,
-          right: 20,
+          top: vertical ? undefined : 16,
+          bottom: vertical ? 12 : undefined,
+          right: vertical ? undefined : 20,
+          left: vertical ? "50%" : undefined,
+          transform: vertical ? "translateX(-50%)" : undefined,
           fontSize: 10,
           fontWeight: 600,
           color: BLUE,
@@ -819,21 +924,31 @@ export default function HikmaHeroStream() {
     pairIndexRef.current++;
     const pair = dataPairs[pairIdx];
 
-    const y = pickY(activeYsRef.current);
+    // In vertical mode, y is horizontal spread (narrower range to fit mobile)
+    // In horizontal mode, y is vertical spread
+    const spreadMin = isCompact ? 8 : 12;
+    const spreadMax = isCompact ? 42 : 75;
+    const y = pickY(activeYsRef.current, spreadMin, spreadMax);
     registerY(y);
 
-    const duration = rand(3200, 4200);
+    // Slower on mobile for a calmer feel
+    const duration = isCompact ? rand(4200, 5400) : rand(3200, 4200);
     const paperId = uid();
     const outputId = uid();
+
+    // restX is position along the animation axis (left% or top%)
+    // In vertical mode: paper rests in top portion, output in bottom portion
+    const paperRestX = isCompact ? rand(6, 30) : rand(4, 22);
+    const outputRestX = isCompact ? rand(58, 78) : rand(58, 74);
 
     setPapers((prev) => [
       ...prev,
       {
         id: paperId,
         lines: pair.paper,
-        restX: rand(4, 22),
+        restX: paperRestX,
         y,
-        rot: rand(-10, 10),
+        rot: isCompact ? rand(-2, 2) : rand(-10, 10),
         duration,
       },
     ]);
@@ -845,7 +960,7 @@ export default function HikmaHeroStream() {
         {
           id: outputId,
           ...pair.output,
-          restX: rand(58, 74),
+          restX: outputRestX,
           y: y + rand(-3, 3),
           duration,
         },
@@ -855,9 +970,10 @@ export default function HikmaHeroStream() {
     // Unregister y after pair is fully done
     setTimeout(() => unregisterY(y), duration + 500);
 
-    // Schedule next spawn (recursive setTimeout for clean varying intervals)
-    spawnTimerRef.current = setTimeout(() => spawnPair(), rand(1000, 1600));
-  }, [registerY, unregisterY]);
+    // Schedule next spawn — slower on mobile to reduce visual clutter
+    const spawnDelay = isCompact ? rand(2200, 3200) : rand(1000, 1600);
+    spawnTimerRef.current = setTimeout(() => spawnPair(), spawnDelay);
+  }, [registerY, unregisterY, isCompact]);
 
   const removePaper = useCallback((id: number) => {
     setPapers((prev) => prev.filter((p) => p.id !== id));
@@ -874,7 +990,8 @@ export default function HikmaHeroStream() {
 
     // Staggered initial burst
     const initTimers: ReturnType<typeof setTimeout>[] = [];
-    for (let i = 0; i < 4; i++) {
+    const burstCount = isCompact ? 2 : 4;
+    for (let i = 0; i < burstCount; i++) {
       initTimers.push(
         setTimeout(() => {
           if (i === 0) {
@@ -885,9 +1002,11 @@ export default function HikmaHeroStream() {
             const pairIdx = pairIndexRef.current % dataPairs.length;
             pairIndexRef.current++;
             const pair = dataPairs[pairIdx];
-            const y = pickY(activeYsRef.current);
+            const spreadMin = isCompact ? 8 : 12;
+            const spreadMax = isCompact ? 42 : 75;
+            const y = pickY(activeYsRef.current, spreadMin, spreadMax);
             registerY(y);
-            const duration = rand(3200, 4200);
+            const duration = isCompact ? rand(4200, 5400) : rand(3200, 4200);
             const paperId = uid();
             const outputId = uid();
 
@@ -896,9 +1015,9 @@ export default function HikmaHeroStream() {
               {
                 id: paperId,
                 lines: pair.paper,
-                restX: rand(4, 22),
+                restX: isCompact ? rand(6, 30) : rand(4, 22),
                 y,
-                rot: rand(-10, 10),
+                rot: isCompact ? rand(-2, 2) : rand(-10, 10),
                 duration,
               },
             ]);
@@ -909,7 +1028,7 @@ export default function HikmaHeroStream() {
                 {
                   id: outputId,
                   ...pair.output,
-                  restX: rand(58, 74),
+                  restX: isCompact ? rand(58, 78) : rand(58, 74),
                   y: y + rand(-3, 3),
                   duration,
                 },
@@ -928,8 +1047,8 @@ export default function HikmaHeroStream() {
     };
   }, [reducedMotion, spawnPair, registerY, unregisterY]);
 
-  // Responsive: height scales down on small screens
-  const containerHeight = isCompact ? 300 : 420;
+  // Vertical mode needs more height for top-to-bottom flow
+  const containerHeight = isCompact ? 420 : 420;
 
   return (
     <div
@@ -960,16 +1079,17 @@ export default function HikmaHeroStream() {
         <DotGrid />
 
         {reducedMotion ? (
-          <StaticFallback />
+          <StaticFallback vertical={isCompact} />
         ) : (
           <>
-            <Portal />
-            <ColumnLabels />
+            <Portal vertical={isCompact} />
+            <ColumnLabels vertical={isCompact} />
             {papers.map((item) => (
               <PaperSnippet
                 key={item.id}
                 item={item}
                 onDone={() => removePaper(item.id)}
+                vertical={isCompact}
               />
             ))}
             {outputs.map((item) => (
@@ -977,6 +1097,7 @@ export default function HikmaHeroStream() {
                 key={item.id}
                 item={item}
                 onDone={() => removeOutput(item.id)}
+                vertical={isCompact}
               />
             ))}
           </>

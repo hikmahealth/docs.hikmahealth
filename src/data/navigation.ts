@@ -95,4 +95,15 @@ export const navigation: NavSection[] = [
       },
     ],
   },
+  {
+    title: "Policies",
+    emoji: "📄",
+    items: [
+      {
+        title: "SMS Messaging Privacy Policy",
+        href: "/docs/policies/sms-privacy-policy",
+      },
+      { title: "SMS Terms & Conditions", href: "/docs/policies/sms-terms" },
+    ],
+  },
 ];

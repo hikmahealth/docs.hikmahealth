@@ -14,6 +14,10 @@ Offline-first apps are designed to work primarily offline, and online functional
 
 Yes. This approach works well for single-user clinics prioritizing data collection. Cloud functionality can be added later when expanding to multiple clinicians or requiring admin features.
 
+### Can devices sync to each other when the clinic has no internet?
+
+Yes, with the optional [Local Sync Hub](/docs/local-sync-hub/overview). It is a desktop app that runs on a clinic machine and acts as a sync server on the local network: paired mobile devices sync to the hub over Wi-Fi/LAN with no internet required, and the hub relays the buffered changes to the cloud server later, whenever it gets online. Without a hub, devices need internet to reach the cloud server in order to share data.
+
 ### Why do I need to scan a QR code before using the mobile app?
 
 The app is publicly available, so scanning the QR code connects your specific instance to your backend server, enabling data synchronization. Without this step, the app functions offline-only.

@@ -35,6 +35,21 @@ export const navigation: NavSection[] = [
     ],
   },
   {
+    title: "Local Sync Hub",
+    emoji: "🛰️",
+    items: [
+      { title: "Overview", href: "/docs/local-sync-hub/overview" },
+      {
+        title: "Operating the Hub",
+        href: "/docs/local-sync-hub/operating-the-hub",
+      },
+      {
+        title: "Building from Source",
+        href: "/docs/local-sync-hub/building-from-source",
+      },
+    ],
+  },
+  {
     title: "Core concepts",
     items: [
       {

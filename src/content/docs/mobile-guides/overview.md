@@ -32,3 +32,4 @@ If you need to build from source, see the [Getting Started](/docs/introduction/g
 
 - [Performance](/docs/mobile-guides/performance) — Tips for optimizing the mobile application on low-end devices.
 - [Offline & Sync](/docs/core-concepts/offline-and-sync) — Learn how data synchronization works under the hood.
+- [Local Sync Hub](/docs/local-sync-hub/overview) — Sync devices over the local network when the clinic has no internet.

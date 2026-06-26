@@ -47,3 +47,5 @@ You can also host Hikma Health on your own infrastructure or any VPS provider. T
 | Data residency | Limited regions | Multiple regions | Your choice |
 
 For most organizations getting started, we recommend **Render** for its simplicity and free tier. For production workloads with specific data residency requirements, consider **DigitalOcean** or **self-hosting**.
+
+> **Note:** These options are about hosting the **cloud server** (the master database) that the whole platform syncs to. They are separate from — and complementary to — the [Local Sync Hub](/docs/local-sync-hub/overview), a desktop app that runs inside a clinic to give devices LAN-local sync when internet is unreliable. A clinic with poor connectivity typically uses both: a hosted cloud server *and* a local hub that relays to it. The hub is not a hosting provider and does not replace the cloud server.

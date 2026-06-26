@@ -18,6 +18,8 @@ For the rest of this documentation, it is important to keep in mind that the pla
 
 Together they form the Hikma Health platform. The server is the core of the platform and includes both the API backend and the admin web interface in a single application. It's built with TypeScript and TanStack Start, designed for offline-first operation. The mobile application allows users to collect data in the field. The database is a relational database (PostgreSQL) that stores all the data.
 
+> **Working in a low-connectivity clinic?** There is an optional fourth component — the [Local Sync Hub](/docs/local-sync-hub/overview), a desktop app that mobile devices sync to over the local network when there is no internet, letting them share data through the hub, which relays to the cloud later. It is not required to get started; set it up only if your clinic needs offline device-to-device sync.
+
 > **Migrating from the old Python version?** If you previously used the separate `hikma-health-backend` (Python/Flask) and `hikma-health-admin` (Next.js) repositories, they have now been combined into a single modern full-stack application. Migration is straightforward - the new system uses the same PostgreSQL database and automatically runs migrations on startup. The migration system is backwards-compatible with the legacy Alembic migrations from the Python era. See the migration guide for details.
 
 ### Requirements

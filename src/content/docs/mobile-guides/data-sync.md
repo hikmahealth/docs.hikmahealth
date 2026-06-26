@@ -90,7 +90,7 @@ Used when the active peer is a cloud server. This leverages WatermelonDB's built
 
 ### Hub Sync
 
-Used when the active peer is a local sync hub (another device on the same network). This uses an encrypted RPC transport with AES-GCM encryption.
+Used when the active peer is a [Local Sync Hub](/docs/local-sync-hub/overview) (a desktop app on the same network). This uses an encrypted RPC transport with AES-GCM encryption. For how the hub is set up and operated on the clinic machine, see [Operating the Hub](/docs/local-sync-hub/operating-the-hub).
 
 **Flow:**
 

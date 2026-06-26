@@ -28,8 +28,18 @@ Three change types are tracked during synchronization:
 
 Changes are organized by table and sent with a synchronization timestamp.
 
-### Server sync
+### Sync targets
 
-The server sync API accepts a GET request first to check for any changes since the last sync, followed by a POST request where the user pushes any data they may have locally.
+The mobile app does not sync to a single fixed destination. It syncs to whichever **peer** is active, and supports three operational arrangements:
+
+- **Offline with cloud sync** — the device collects data offline and syncs directly to the cloud master server when it has internet.
+- **Offline with hub sync** — the device syncs to a [Local Sync Hub](/docs/local-sync-hub/overview): a desktop app on the clinic's local network that buffers sync between devices when there is no internet, then relays to the cloud later. This is the arrangement for clinics where connectivity is intermittent or absent.
+- **Fully online** — reads and writes bypass the local database entirely and go straight to the server. This requires a constant connection.
+
+The transport differs by target: cloud sync uses the platform's REST sync API over HTTPS, while hub sync uses an encrypted RPC transport (ECDH-derived AES-256-GCM) over the local network. See [Data Synchronization](/docs/mobile-guides/data-sync) for the full mechanics, including how the app resolves which peer to use.
+
+### Cloud server sync
+
+When syncing to the cloud, the server sync API accepts a GET request first to check for any changes since the last sync, followed by a POST request where the device pushes any data it has locally.
 
 **Note:** Initial synchronization requires downloading the entire database, which may take time depending on network availability.

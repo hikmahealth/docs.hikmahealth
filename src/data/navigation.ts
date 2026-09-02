@@ -93,6 +93,10 @@ export const navigation: NavSection[] = [
     items: [{ title: "Overview", href: "/docs/server-guides/overview" }],
   },
   {
+    title: "Media, Videos & Graphics",
+    items: [{ title: "Videos & Playlists", href: "/docs/media/videos" }],
+  },
+  {
     title: "Customization",
     items: [
       {

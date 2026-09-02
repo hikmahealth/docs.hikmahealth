@@ -11,9 +11,10 @@ interface Props {
   description?: string;
   section?: string;
   headings: MarkdownHeading[];
+  prose?: boolean;
 }
 
-const { title, description, section, headings } = Astro.props;
+const { title, description, section, headings, prose = true } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, "");
 ---
 
@@ -95,7 +96,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "");
         </p>
       )}
 
-      <article class="prose-doc">
+      <article class={prose ? "prose-doc" : undefined}>
         <slot />
       </article>
     </main>

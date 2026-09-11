@@ -23,36 +23,60 @@ const sources: VideoSource[] = [
     id: "admin-configuration-settings",
     title: "Administrator Configurations & Settings (2026)",
     link: "https://drive.google.com/file/d/1MIT-oRonn2yKgiaXj5H_S0-pqI3gU7sQ/view?usp=drive_link",
-    description: "Here we show how to use the admin customization settings to configure the user experience of mobile device users, AI integration, and more.",
+    description:
+      "Here we show how to use the admin customization settings to configure the user experience of mobile device users, AI integration, and more.",
     actions: [],
   },
   {
     id: "customizing-event-forms",
     title: "Customizing Event Forms (2026)",
     link: "https://drive.google.com/file/d/1wD67e9GmdBFWciGZeGa-SqU5eRTQeSQ0/view?usp=drive_link",
-    description: "This video shows how to use the form builder UI in the admin portal to create and update event forms with custom fields.",
-    actions: [{ label: "Dynamic Event Forms", link: "/docs/core-concepts/dynamic-event-forms" }],
+    description:
+      "This video shows how to use the form builder UI in the admin portal to create and update event forms with custom fields.",
+    actions: [
+      {
+        label: "Dynamic Event Forms",
+        link: "/docs/core-concepts/dynamic-event-forms",
+      },
+    ],
   },
   {
     id: "customizing-patient-registration-forms",
     title: "Customizing Patient Registration Forms (2026)",
     link: "https://drive.google.com/file/d/1vXgg-PTF1DeRMYZohOXE0YY7nKCZxsg1/view?usp=drive_link",
-    description: "How to use the form builder to create custom patient registration forms, organizing inputs, and defining the data needed.",
+    description:
+      "How to use the form builder to create custom patient registration forms, organizing inputs, and defining the data needed.",
     actions: [],
   },
   {
     id: "reviewing-registered-patient-data",
     title: "Revieweing Registered Patient Data (2026)",
     link: "https://drive.google.com/file/d/13VxLrU1T25zbOhZm0hFCiWzieye4d6zc/view?usp=drive_link",
-    description: "How the administrator can find, view, and manage existing patient records across the entire Hikma Health EHR installation.",
-    actions: [{ label: "Key Concepts", link: "/docs/introduction/key-concepts" }],
+    description:
+      "How the administrator can find, view, and manage existing patient records across the entire Hikma Health EHR installation.",
+    actions: [
+      { label: "Key Concepts", link: "/docs/introduction/key-concepts" },
+    ],
   },
   {
     id: "ai-powered-report-generation",
     title: "AI Powered Report Generation",
     link: "https://drive.google.com/file/d/1qk_9ykzHJmN0YwiLK0FEFWuOfXVkPOQL/view?usp=drive_link",
-    description: "Use AI/LLMs to support the generation and customization of custom reports to perform analysis of your clinic/organization data.",
-    actions: [{ label: "Key Concepts", link: "/docs/introduction/key-concepts" }],
+    description:
+      "Use AI/LLMs to support the generation and customization of custom reports to perform analysis of your clinic/organization data.",
+    actions: [
+      { label: "Key Concepts", link: "/docs/introduction/key-concepts" },
+    ],
+  },
+  {
+    id: "medications-inventory-management",
+    title: "Pharmacy, Drugs, and Inventory Management",
+    link: "https://drive.google.com/file/d/1sS4DKjIU8u2Q1I6OfDW0Pc8HashFdJ9W/view?usp=sharing",
+    description:
+      "Manage your organizational drug catalogue and the per clinic inventory within the Hikma Health EHR system.",
+    actions: [
+      { label: "Key Concepts", link: "/docs/introduction/key-concepts" },
+    ],
   },
 ];
 
@@ -96,15 +120,21 @@ function toEmbedUrl(link: string): string {
 }
 
 if (sources.length === 0) {
-  throw new Error("Add at least one entry to the videos list in videos-playlist.ts.");
+  throw new Error(
+    "Add at least one entry to the videos list in videos-playlist.ts.",
+  );
 }
 
 const ids = sources.map((source) => source.id);
 if (ids.some((id) => id.trim() === "")) {
-  throw new Error("Every video in videos-playlist.ts needs a non-empty id; it is the ?video= value in share links.");
+  throw new Error(
+    "Every video in videos-playlist.ts needs a non-empty id; it is the ?video= value in share links.",
+  );
 }
 if (new Set(ids).size !== ids.length) {
-  throw new Error("Video ids in videos-playlist.ts must be unique; they are the ?video= value in share links.");
+  throw new Error(
+    "Video ids in videos-playlist.ts must be unique; they are the ?video= value in share links.",
+  );
 }
 
 export const videos: Video[] = sources.map((source) => ({

@@ -1,6 +1,7 @@
 export interface NavItem {
   title: string;
   href: string;
+  published?: boolean;
 }
 
 export interface NavSection {
@@ -31,6 +32,21 @@ export const navigation: NavSection[] = [
       {
         title: "Hosting Options",
         href: "/docs/deployment/hosting-options",
+      },
+    ],
+  },
+  {
+    title: "Field Guides",
+    emoji: "🚑",
+    items: [
+      {
+        title: "Understanding Field Usage",
+        href: "/docs/field-guides/usage",
+      },
+      {
+        title: "Routers & Networks",
+        href: "/docs/field-guides/routers-and-networks",
+        published: false,
       },
     ],
   },

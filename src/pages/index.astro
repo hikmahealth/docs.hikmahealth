@@ -15,7 +15,6 @@ import { navigation } from "../data/navigation";
 >
     <Header />
 
-    <!-- Mobile navigation overlay -->
     <div
         id="mobile-sidebar-overlay"
         class="fixed inset-0 z-40 bg-black/50 hidden lg:hidden"
@@ -64,7 +63,7 @@ import { navigation } from "../data/navigation";
                                     {navSection.title}
                                 </h3>
                                 <ul class="mt-1 space-y-0.5 border-l border-gray-200 dark:border-gray-700 ml-3">
-                                    {navSection.items.map((item) => (
+                                    {navSection.items.filter(it => it.published !== false).map((item) => (
                                         <li>
                                             <a
                                                 href={item.href}
@@ -84,7 +83,6 @@ import { navigation } from "../data/navigation";
     </div>
 
     <main class="min-h-[calc(100vh-4rem)]">
-        <!-- Hero -->
         <section
             class="relative overflow-hidden border-b border-gray-200 dark:border-gray-800"
         >
@@ -191,7 +189,6 @@ import { navigation } from "../data/navigation";
             </div>
         </section>
 
-        <!-- Impact Stats -->
         <section
             class="border-b border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30"
         >
@@ -200,7 +197,6 @@ import { navigation } from "../data/navigation";
             </div>
         </section>
 
-        <!-- Platform Pillars -->
         <section class="max-w-5xl mx-auto px-6 py-16 sm:py-20">
             <h2
                 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center mb-4"
@@ -216,7 +212,6 @@ import { navigation } from "../data/navigation";
             <PlatformPillars client:visible />
         </section>
 
-        <!-- Platform Architecture -->
         <section
             class="border-t border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30"
         >
@@ -236,7 +231,6 @@ import { navigation } from "../data/navigation";
             </div>
         </section>
 
-        <!-- Documentation Cards -->
         <section class="max-w-5xl mx-auto px-6 py-16 sm:py-20">
             <h2
                 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center mb-4"
@@ -289,7 +283,6 @@ import { navigation } from "../data/navigation";
             </div>
         </section>
 
-        <!-- Bottom CTA -->
         <section
             class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50"
         >
@@ -346,7 +339,6 @@ import { navigation } from "../data/navigation";
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="border-t border-gray-200 dark:border-gray-800 py-8 px-6">
         <div
             class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400"

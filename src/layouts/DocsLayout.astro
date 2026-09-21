@@ -22,10 +22,8 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "");
   <Header />
 
   <div class="flex max-w-[90rem] mx-auto">
-    <!-- Left Sidebar (desktop) -->
     <Sidebar currentPath={currentPath} />
 
-    <!-- Mobile sidebar overlay -->
     <div
       id="mobile-sidebar-overlay"
       class="fixed inset-0 z-40 bg-black/50 hidden lg:hidden"
@@ -53,7 +51,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "");
                   {navSection.title}
                 </h3>
                 <ul class="mt-1 space-y-0.5 border-l border-gray-200 dark:border-gray-700 ml-3">
-                  {navSection.items.map((item) => {
+                  {navSection.items.filter(it => it.published !== false).map((item) => {
                     const isActive = currentPath === item.href;
                     return (
                       <li>
@@ -80,7 +78,6 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "");
       </div>
     </div>
 
-    <!-- Main Content Area -->
     <main class="flex-1 min-w-0 px-6 sm:px-8 lg:px-12 py-8 max-w-3xl">
       {section && (
         <p class="text-sm font-medium text-primary-600 dark:text-primary-400 mb-1">
@@ -101,15 +98,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "");
       </article>
     </main>
 
-    <!-- Right Table of Contents -->
     <TableOfContents headings={headings} />
   </div>
 </Layout>
 
 <style is:global>
-  /* ===== Prose styles for rendered markdown ===== */
 
-  /* Headings */
   .prose-doc h2 {
     font-size: 1.5rem;
     font-weight: 700;

@@ -106,7 +106,13 @@ export const navigation: NavSection[] = [
   },
   {
     title: "Server Guides",
-    items: [{ title: "Overview", href: "/docs/server-guides/overview" }],
+    items: [
+      { title: "Overview", href: "/docs/server-guides/overview" },
+      {
+        title: "Reporting Integration",
+        href: "/docs/server-guides/reporting-integration",
+      },
+    ],
   },
   {
     title: "Media, Videos & Graphics",

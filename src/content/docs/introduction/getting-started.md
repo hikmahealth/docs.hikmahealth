@@ -18,9 +18,16 @@ For the rest of this documentation, it is important to keep in mind that the pla
 
 Together they form the Hikma Health platform. The server is the core of the platform and includes both the API backend and the admin web interface in a single application. It's built with TypeScript and TanStack Start, designed for offline-first operation. The mobile application allows users to collect data in the field. The database is a relational database (PostgreSQL) that stores all the data.
 
+All of the applications live in one repository, [hikma-health-server](https://github.com/hikmahealth/hikma-health-server), on the default branch `v3`:
+
+- `apps/server/` — the server (API + admin web interface)
+- `apps/mobile/` — the mobile application (Expo / React Native)
+- `apps/aiproxy/` — the optional AI proxy used for report generation
+- `apps/local-hub/` — the optional Local Sync Hub desktop app
+
 > **Working in a low-connectivity clinic?** There is an optional fourth component — the [Local Sync Hub](/docs/local-sync-hub/overview), a desktop app that mobile devices sync to over the local network when there is no internet, letting them share data through the hub, which relays to the cloud later. It is not required to get started; set it up only if your clinic needs offline device-to-device sync.
 
-> **Migrating from the old Python version?** If you previously used the separate `hikma-health-backend` (Python/Flask) and `hikma-health-admin` (Next.js) repositories, they have now been combined into a single modern full-stack application. Migration is straightforward - the new system uses the same PostgreSQL database and automatically runs migrations on startup. The migration system is backwards-compatible with the legacy Alembic migrations from the Python era. See the migration guide for details.
+> **Upgrading an existing deployment?** If you run a deployment from the old `main` branch, or from the separate `hikma-health-backend` (Python/Flask) and `hikma-health-admin` (Next.js) repositories, point it at the `v3` branch. Your PostgreSQL database is kept, and migrations run automatically on startup, including databases migrated with the legacy Alembic migrations. See [Upgrading to v3](/docs/introduction/hikma-health-v3#upgrading-to-v3) for the steps.
 
 ### Requirements
 
@@ -30,42 +37,31 @@ To get started with each of the applications, you will need to have the followin
 
 - **Git:** A version control system that allows you to download the code from GitHub.
 - **Node.js (v24.14.0):** A JavaScript runtime that allows you to run JavaScript code outside of a browser.
-- **pnpm:** A fast, disk space efficient package manager (install with `npm install -g pnpm`).
+- **pnpm 12:** A fast, disk space efficient package manager (install with `npm install -g pnpm@12`).
 - **PostgreSQL:** A relational database that stores all the data.
 - **PGAdmin (Recommended):** A tool that allows you to manage PostgreSQL databases. Can save you a lot of time.
 
 **For the Mobile Application:** _ℹ️ It is recommended that you download the latest application from the Google Play Store or Apple App Store instead of building it from source._
 
-- **Android Studio:** An IDE for Android development.
-- **React Native:** A framework for building native apps using JavaScript and React.
-- **pnpm:** A fast, disk space efficient package manager (install with `npm install -g pnpm`).
+- **Android Studio** (for Android) or **Xcode** (for iOS).
+- **Expo / React Native toolchain:** see the [Expo setup guide](https://docs.expo.dev/get-started/installation/).
+- **pnpm 12:** the same package manager as the server.
 - **ngrok (Optional):** A tool that allows you to expose a local server to the internet. This makes it easier to test the mobile application.
 
-### Clone Repositories
+### Clone the repository
 
-First, create a directory to store all the code for the platform. Then, clone the repositories for each of the applications:
-
-```
-# Make a directory to store all the code
-mkdir hikma-health
-
-# Change into the directory
-cd hikma-health
-```
-
-This will help with organizing the code and make it easier to run the applications.
-
-Next, clone the repositories:
+Everything is in one repository, so you only need to clone it once:
 
 ```
-# Clone the server repository (includes both API and admin interface)
+# Clone the repository (includes the server, mobile app, AI proxy and Local Sync Hub)
 git clone https://github.com/hikmahealth/hikma-health-server.git
+cd hikma-health-server
 
-# (Recommended) Download the HH mobile app from the App Store or Google Play Store.
-
-# (Optional) Clone the mobile app repository
-git clone git@github.com:hikmahealth/hikma-health-app.git
+# Install dependencies
+pnpm install
 ```
+
+(Recommended) Download the Hikma Health mobile app from the App Store or Google Play Store instead of building it yourself.
 
 ## Local set up
 
@@ -97,37 +93,21 @@ alter database hikma_health owner to hikma_health;
 
 ### Hikma Health Server (API + Admin)
 
-The server is a full-stack application built with TypeScript and TanStack Start. It combines both the API backend and the admin web interface into a single application. Make sure you have Node.js (v24.14.0) and pnpm installed on your computer. Also make sure you have a database set up and running - as shown above.
+The server is a full-stack application built with TypeScript and TanStack Start, in `apps/server/`. It combines both the API backend and the admin web interface into a single application. Make sure you have Node.js (v24.14.0) and pnpm installed on your computer. Also make sure you have a database set up and running - as shown above.
 
-```
-# Change into the server directory
-cd hikma-health-server
-
-# Install dependencies
-pnpm install
-
-# Create a .env file from the template
-cp .env.example .env
-```
-
-Open the `.env` file and configure your database connection. The simplest approach is to set the `DATABASE_URL`:
+Create `apps/server/.env` and configure your database connection. The simplest approach is to set the `DATABASE_URL`:
 
 ```
 DATABASE_URL=postgresql://hikma_health:hikma_health@localhost:5432/hikma_health
 ```
 
-Alternatively, you can configure individual database variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`). See `.env.example` for all available options including SSL settings, storage buckets, and Sentry monitoring.
+Alternatively, you can configure individual database variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`). Localhost databases don't need any SSL settings. See [Environment variables](/docs/deployment/quick-start#environment-variables) and `apps/server/README.md` for all available options, including database TLS, storage, and Sentry monitoring.
 
-> **Getting default credentials:** The application does not yet have a WordPress-style admin setup flow. To get the default login credentials for the admin interface, email the maintainer at [ally@hikmahealth.org](mailto:ally@hikmahealth.org).
-
-Once your `.env` is configured:
+Once your `.env` is configured, run these from the repository root:
 
 ```
-# Run database migrations
-pnpm run migrate:latest
-
-# Start the development server (with hot reload)
-pnpm dev
+# Run database migrations and start the development server (with hot reload)
+pnpm exec just dev-server
 ```
 
 The application will be available at `http://localhost:3000` and includes both:
@@ -135,47 +115,52 @@ The application will be available at `http://localhost:3000` and includes both:
 - **API endpoints** for the mobile application
 - **Admin web interface** for managing data through your browser
 
+> **Creating the first administrator:** On a new database, open `http://localhost:3000/setup` and enter the setup token to create your organization, first clinic and administrator account. If you haven't set `SETUP_TOKEN` in your `.env`, the token is printed in the server logs. See [Creating the first administrator](/docs/deployment/quick-start#creating-the-first-administrator).
+
 #### Available scripts
+
+Run these from the repository root:
 
 | Command | Description |
 |---|---|
-| `pnpm dev` | Start the dev server with hot reload on port 3000 |
-| `pnpm build` | Build the application for production |
-| `pnpm start` | Production start (runs migrations + permission recovery automatically) |
-| `pnpm migrate:latest` | Run all pending database migrations |
-| `pnpm test` | Run all tests (unit + integration) |
-| `pnpm test:watch` | Run unit tests in watch mode |
-| `pnpm test:e2e` | Run Playwright end-to-end tests |
-| `pnpm test:coverage` | Generate test coverage report |
-| `pnpm lint` | Run the linter (Biome) |
-| `pnpm format` | Auto-format code (Biome) |
-| `pnpm recovery:permissions` | Fix user role and clinic permission issues |
-| `pnpm recovery:permissions:dry-run` | Preview permission fixes without applying |
+| `pnpm exec just dev-server` | Run migrations and start the dev server with hot reload on port 3000 |
+| `pnpm run server:install-build` | Install dependencies and build the server for production |
+| `pnpm run server:build` | Build the server (assumes dependencies are installed) |
+| `pnpm run server:start` | Production start (runs migrations, permission recovery and setup-token generation) |
+| `pnpm exec just setup-token-reset` | Replace a generated first-run setup token |
+| `pnpm run lint` | Run the linter (oxlint) |
 
-> **Production deployment:** For production, fork the repository into your own GitHub organization first, then use the deploy buttons in your fork's README to deploy to Render or DigitalOcean with one click. The application automatically runs migrations and permission recovery on startup and is optimized for reliability in low-resource settings.
+App-specific scripts run with a pnpm filter:
+
+| Command | Description |
+|---|---|
+| `pnpm --filter hikma-health-server run test` | Run all tests (unit + integration) |
+| `pnpm --filter hikma-health-server run test:watch` | Run unit tests in watch mode |
+| `pnpm --filter hikma-health-server run test:e2e` | Run Playwright end-to-end tests |
+| `pnpm --filter hikma-health-server run test:coverage` | Generate test coverage report |
+| `pnpm --filter hikma-health-server run format` | Format code (Biome) |
+| `pnpm --filter hikma-health-server run recovery-permissions` | Fix user role and clinic permission issues |
+| `pnpm --filter hikma-health-server run recovery-permissions-dry-run` | Preview permission fixes without applying |
+
+> **Production deployment:** For production, fork the repository into your own GitHub organization first, then use the deploy buttons in your fork's README to deploy to Render or DigitalOcean with one click. The application automatically runs migrations and permission recovery on startup and is optimized for reliability in low-resource settings. See [Quick Start](/docs/deployment/quick-start).
 
 ### Mobile application
 
-The mobile application is developed using React Native, please make sure you have react-native properly set-up on your computer as described [here](https://reactnative.dev/docs/environment-setup). If your set up is not correct, you will encounter errors when trying to run the application.
+The mobile application is developed using Expo and React Native, in `apps/mobile/`. Please make sure you have the Expo / React Native toolchain properly set up on your computer as described [here](https://docs.expo.dev/get-started/installation/). If your set up is not correct, you will encounter errors when trying to run the application.
 
 ⭐️ **We recommend that you do not build your own mobile application.** Instead, you can use the pre-built mobile application available on the App Store and Google Play Store.
 
 If you insist on building your own mobile application, you can follow the instructions below:
 
 ```
-# Change into the mobile app directory
-cd hikma-health-app
+# Point the app at your server (edit based on which port the server is running)
+echo "EXPO_PUBLIC_HIKMA_API_TESTING=http://localhost:3000" > apps/mobile/.env
 
-# Install the dependencies
-pnpm install
-
-# Create a .env file with the correct API_URL with the following command
-# Edit based on which port the application is running
-echo "API_URL=http://localhost:3000" > .env
-
-# Start the application
-pnpm android && pnpm start
+# From the repository root, build, install and launch the app
+pnpm run mobile:start-android   # or: pnpm run mobile:start-ios
 ```
+
+See `apps/mobile/README.md` for EAS builds and the Maestro end-to-end tests.
 
 ## Getting help
 

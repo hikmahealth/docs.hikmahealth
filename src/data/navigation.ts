@@ -19,6 +19,10 @@ export const navigation: NavSection[] = [
         title: "Releases & Changes",
         href: "/docs/introduction/releases-and-changes",
       },
+      {
+        title: "Hikma Health version 3.0",
+        href: "/docs/introduction/hikma-health-v3",
+      },
       { title: "Key Concepts", href: "/docs/introduction/key-concepts" },
       { title: "Try the demo", href: "/docs/introduction/try-the-demo" },
       { title: "FAQ", href: "/docs/introduction/faq" },

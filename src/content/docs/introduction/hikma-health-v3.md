@@ -1,10 +1,10 @@
 ---
-title: "Hikma Health version 3.0"
+title: "Hikma Health version 3.0,(v2026.10)"
 description: "What's new in Hikma Health v3: a TypeScript backend in one monorepo, self-onboarding, a new forms rules engine, the Local Sync Hub, and stronger security and auditing."
 order: 3
 ---
 
-## Hikma Health version 3.0
+## Hikma Health version 3.0 (v2026.10)
 
 Hikma Health v3 is the culmination of many months of work and is one of the platform's largest releases so far.
 The server, mobile app, admin portal, AI proxy and Local Sync Hub now live in one repository and are released together.
